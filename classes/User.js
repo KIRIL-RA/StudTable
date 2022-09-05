@@ -162,6 +162,7 @@ class UserWithPassword extends User {
      * @param {any} accountType 
      */
     async Registry(accountType){
+        let date_ob = new Date();
 
         // Get date s
         let date = ("0" + date_ob.getDate()).slice(-2);

@@ -9,6 +9,7 @@ const dbName = "StudTable";
 const usersCollection = "Users";
 const timeTablePermanentCollection = "TimeTablesPermanent";
 const academiesCollection = "Academies";
+const specificDaysChangesCollect = "SpecificDaysChanges";
 
 /**
  * Access to db information.
@@ -63,12 +64,13 @@ class DBWork {
     async GetTimeTable(academyId, direction, group, date = undefined) {
         if (academyId === undefined || direction == undefined || group === undefined) throw new NotAllParametersWereRecievedError("Not all parameters were recieved");
         const datataBase = this.mongoClient.db(dbName);
+        let collection;
         let result = {};
 
         switch (date) {
             case undefined:
                 // If date not setted -> user want to get permanent timeTable
-                const collection = datataBase.collection(timeTablePermanentCollection);
+                collection = datataBase.collection(timeTablePermanentCollection);
                 result = await collection.findOne({
                     academyId: academyId,
                     direction: direction,
@@ -77,6 +79,14 @@ class DBWork {
                 break;
 
             default:
+                // If date setted -> user want to get timeTable for specific day
+                collection = datataBase.collection(specificDaysChangesCollect);
+                result = await collection.findOne({
+                    academyId: academyId,
+                    direction: direction,
+                    group: group,
+                    date: date
+                });
                 break;
         }
 

@@ -3,6 +3,16 @@ const { NotAllParametersWereRecievedError } = require("./Exceptions/CommonExcept
 const DBWork = require("./databaseWork");
 const { transformSortedSetWithScoresReply } = require("@redis/client/dist/lib/commands/generic-transformers");
 
+const daysOfWeekArr = [
+    DaysOfWeek.MONDAY,
+    DaysOfWeek.TUESDAY,
+    DaysOfWeek.WEDNESDAY,
+    DaysOfWeek.THURSDAY,
+    DaysOfWeek.FRIDAY,
+    DaysOfWeek.SATURDAY,
+    DaysOfWeek.SUNDAY
+];
+
 class DayOfWeek{
     /**
      * Create object with day timetable for day of week
@@ -126,9 +136,15 @@ class SpecificDay{
      */
      async GetTimeTable(){
         const database = this.database;
-        let result = await database.GetTimeTable(this.academyId, this.direction, this.group);
+        let date = this.GetFormattedDate();
 
-        return result.table;
+        // If day have any deviations from main timeTable
+        let result = await database.GetTimeTable(this.academyId, this.direction, this.group, date.dateString);
+        if(result != null) return result.table;
+
+        // If day doesnt have any deviations from main timeTable
+        result = await database.GetTimeTable(this.academyId, this.direction, this.group);
+        return result.table[daysOfWeekArr[date.weekDay-1]];
     }
 
     /**
@@ -140,6 +156,24 @@ class SpecificDay{
 
         return result.timeGrid;
     }
+
+    /**
+     * 
+     * Getting date, formatted for database
+     */
+    GetFormattedDate(){
+        let dateArray = String(this.day).split('.');
+
+        let date_ob = new Date(Number(dateArray[2]), Number(dateArray[1])-1, Number(dateArray[0]));
+        let date = ("0" + date_ob.getDate()).slice(-2);
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        let year = date_ob.getFullYear();
+
+        return { 
+            weekDay: date_ob.getDay(),
+            dateString: `${date}.${month}.${year}` 
+        };
+    }
 }
 
-module.exports = {DayOfWeek};
+module.exports = {DayOfWeek, SpecificDay};

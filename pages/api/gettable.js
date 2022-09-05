@@ -2,7 +2,7 @@ const { UserLoginDataIncorrectError, UserNotFoundError } = require("../../classe
 const ResponseSamples = require("../../classes/ResponseSamples");
 const StatusCodes = require("../static/StatusCodes.json");
 const TableTypes = require("../static/TableTypes.json");
-const { DayOfWeek } = require("../../classes/TimeTable");
+const { DayOfWeek, SpecificDay } = require("../../classes/TimeTable");
 const { DBWork, StudTableDatabase } = require('../../classes/databaseWork');
 const { UserWithToken } = require("../../classes/User");
 import { getCookie } from 'cookies-next';
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         return;
     }
 
-    try{
+    //try{
         // Check is session data is valid
         await Database.Connect();
         let academyInfo;
@@ -66,12 +66,13 @@ export default async function handler(req, res) {
 
                 // Get time table
                 academyInfo = user.userData.academy;
-
+                dayTimeTable = new SpecificDay(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group);
+                timeTable = await dayTimeTable.GetTimeTable();
                 break;
         }
 
         res.send(ResponseSamples.Data(timeTable, StatusCodes.OK));
-    }
+   /*}
 
     catch(e){
         switch (e.name) {
@@ -87,5 +88,5 @@ export default async function handler(req, res) {
                 res.send(ResponseSamples.DefaultResponse(e.message, StatusCodes.OPERATION_FAILED));
                 return;
         }
-    }
+    }*/
 }
