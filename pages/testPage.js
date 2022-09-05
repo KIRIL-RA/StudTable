@@ -5,9 +5,14 @@ const testPage = () => {
 
     const onClickedUpdateTTPP = () => {
         let body = {
-            day: "Monday",
+            day: "Tuesday",
             changes:{
-
+                1:{
+                    lessionName:"Math",
+                    audience:409,
+                    teacher:"Matcheno P. V.",
+                    type:"per"
+                }
             },
             type:"per"
         };
@@ -17,11 +22,18 @@ const testPage = () => {
 
     const onClickedGetTT = () => {
         let body = {
-            day: "5.9.2022",
-            request:"asd"
+            day: "Monday",
+            request:"per"
         };
 
         request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body));
+    };
+
+    const onClickedGetLessons = () => {
+        let body = {
+        };
+
+        request(`${parameters.API_HOST}/getdisciplinies`, 'POST', JSON.stringify(body));
     };
 
     let date = new Date; 
@@ -30,6 +42,7 @@ const testPage = () => {
         <div>
             <button onClick={() => onClickedUpdateTTPP()}>Update time table permanent permanent</button>
             <button onClick={() => onClickedGetTT()}>Get time table</button>
+            <button onClick={() => onClickedGetLessons()}>Get available lessons</button>
         </div>
     )
 }
