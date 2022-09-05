@@ -1,4 +1,5 @@
 {
     "PERMANENT":"per",
-    "AT_SPECIFIC_DAY":"asd"
+    "AT_SPECIFIC_DAY":"asd",
+    "BY_WEEK":"byWeek"
 }
