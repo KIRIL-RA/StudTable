@@ -29,7 +29,7 @@ const testPage = () => {
     return (
         <div>
             <button onClick={() => onClickedUpdateTTPP()}>Update time table permanent permanent</button>
-            <button onClick={() => onClickedGetTT()}>Get time tabele</button>
+            <button onClick={() => onClickedGetTT()}>Get time table</button>
         </div>
     )
 }
