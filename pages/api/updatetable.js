@@ -51,7 +51,7 @@ export default async function handler(req, res) {
                 let dayTimeTable = new DayOfWeek(Database, dayToUpdate, academyInfo.id, academyInfo.directionId, academyInfo.group, changes);
                 await dayTimeTable.UpdateTimeTable();
 
-                break;
+            break;
         }
 
         res.send(ResponseSamples.DefaultResponse("Table updated sucessfully", StatusCodes.OK));

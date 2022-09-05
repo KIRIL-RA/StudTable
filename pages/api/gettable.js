@@ -30,6 +30,9 @@ export default async function handler(req, res) {
     try{
         // Check is session data is valid
         await Database.Connect();
+        let academyInfo;
+        let dayTimeTable;
+        let timeTable;
         let user = new UserWithToken(userId, sessionToken, Database);
         await user.Login();
 
@@ -46,13 +49,28 @@ export default async function handler(req, res) {
                 }
 
                 // Get time table
-                let academyInfo = user.userData.academy;
-                let dayTimeTable = new DayOfWeek(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group);
-                let timeTable = await dayTimeTable.GetTimeTable();
+                academyInfo = user.userData.academy;
+                dayTimeTable = new DayOfWeek(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group);
+                timeTable = await dayTimeTable.GetTimeTable();
+                timeTable = timeTable[day];
 
-                res.send(ResponseSamples.Data(timeTable, StatusCodes.OK));
+                break;
+
+            case TableTypes.AT_SPECIFIC_DAY:
+
+                if (day === undefined) {
+                    // If not all parameters were recieved send response
+                    res.send(ResponseSamples.DefaultResponse("Not all parameters were recieved", StatusCodes.NOT_ALL_PARAMETERS_WERE_RECIEVED));
+                    return;
+                }
+
+                // Get time table
+                academyInfo = user.userData.academy;
+
                 break;
         }
+
+        res.send(ResponseSamples.Data(timeTable, StatusCodes.OK));
     }
 
     catch(e){
