@@ -1,0 +1,31 @@
+.login__wrapper{
+    text-align: center;
+}
+.login__title{
+    margin-bottom: 0;
+}
+.form__wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 0;
+}
+.form__input{
+    margin-top: 20px;
+    padding: 0;
+    border: 1px black solid;
+    border-radius: 5px;
+    width: 100%;
+    height: 36px;
+}
+.form__button{
+    margin-top: 20px;
+    height: 30px;
+}
+.form__input::placeholder {
+    text-align:center;
+    padding: 5px;
+}
+.form__error{
+    color: red; 
+}

@@ -9,9 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "12.2.5",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "@reduxjs/toolkit": "^1.8.3",
     "cookies-next": "^2.1.1",
     "es6-promise": "^4.2.8",
@@ -20,7 +17,10 @@
     "mongodb": "^4.7.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
+    "next": "12.2.5",
     "node-fetch": "^3.2.8",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-redux": "^8.0.2",
     "react-step-progress-bar": "^1.0.3",
