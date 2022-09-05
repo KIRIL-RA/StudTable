@@ -1,4 +1,4 @@
-import styles from "../styles/timetable.module.css"
+import styles from "../styles/pages/timetable.module.css"
 
 const timetable = () => {
     return (
@@ -36,6 +36,7 @@ const timetable = () => {
                         </div>
                         <div>436</div>
                     </div>
+                    <a href="/profile">ZZZZZZZ </a>
                 </div>
             </main>
         </>
