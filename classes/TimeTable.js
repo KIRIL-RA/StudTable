@@ -5,7 +5,7 @@ const { transformSortedSetWithScoresReply } = require("@redis/client/dist/lib/co
 
 class DayOfWeek{
     /**
-     * Create object with day timetable
+     * Create object with day timetable for day of week
      * @param {DBWork} DBWork 
      * @param {any} day 
      * @param {string} academyId
@@ -86,6 +86,55 @@ class DayOfWeek{
      * Getting time grid from database
      */
     async GetTimeGrid(){
+        const database = this.database;
+        let result = await database.GetUniversityInfo(this.academyId);
+
+        return result.timeGrid;
+    }
+}
+
+class SpecificDay{
+    /**
+     * Create object with day timetable for spicific day
+     * @param {DBWork} DBWork 
+     * @param {any} day 
+     * @param {string} academyId
+     * @param {string} direction
+     * @param {string} group
+     * @param {object} changes
+     */
+    constructor(DBWork, day, academyId, direction, group, changes = undefined){
+        if (DBWork === undefined || DBWork === null) throw new NotAllParametersWereRecievedError("You must specify all parameters");
+
+        this.database = DBWork;
+        this.day = day;
+        this.academyId = academyId;
+        this.direction = direction;
+        this.group = group;
+        this.changes = changes;
+    }
+
+    /**
+     * Validate timeTable
+     */
+     async Validate(){
+
+    }
+
+    /**
+     * Getting timeTable from database
+     */
+     async GetTimeTable(){
+        const database = this.database;
+        let result = await database.GetTimeTable(this.academyId, this.direction, this.group);
+
+        return result.table;
+    }
+
+    /**
+     * Getting time grid from database
+     */
+     async GetTimeGrid(){
         const database = this.database;
         let result = await database.GetUniversityInfo(this.academyId);
 
