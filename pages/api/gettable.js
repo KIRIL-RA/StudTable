@@ -2,6 +2,7 @@ const { UserLoginDataIncorrectError, UserNotFoundError } = require("../../classe
 const ResponseSamples = require("../../classes/ResponseSamples");
 const StatusCodes = require("../static/StatusCodes.json");
 const TableTypes = require("../static/TableTypes.json");
+const { DayOfWeek } = require("../../classes/TimeTable");
 const { DBWork, StudTableDatabase } = require('../../classes/databaseWork');
 const { UserWithToken } = require("../../classes/User");
 import { getCookie } from 'cookies-next';
@@ -11,6 +12,7 @@ export default async function handler(req, res) {
     let userId = getCookie('userId', {req, res});
     let sessionToken = getCookie('sessionToken', {req, res});
     let request = req.body.request;
+    let day = req.body.day;
 
     if (request === undefined) {
         // If not all parameters were recieved send response
@@ -36,6 +38,19 @@ export default async function handler(req, res) {
 
             // If user wants to get permanent timtable
             case TableTypes.PERMANENT:
+
+                if (day === undefined) {
+                    // If not all parameters were recieved send response
+                    res.send(ResponseSamples.DefaultResponse("Not all parameters were recieved", StatusCodes.NOT_ALL_PARAMETERS_WERE_RECIEVED));
+                    return;
+                }
+
+                // Get time table
+                let academyInfo = user.userData.academy;
+                let dayTimeTable = new DayOfWeek(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group);
+                let timeTable = await dayTimeTable.GetTimeTable();
+
+                res.send(ResponseSamples.Data(timeTable, StatusCodes.OK));
                 break;
         }
     }
