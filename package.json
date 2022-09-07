@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@redux-devtools/core": "^3.13.1",
     "@reduxjs/toolkit": "^1.8.3",
     "cookies-next": "^2.1.1",
     "es6-promise": "^4.2.8",

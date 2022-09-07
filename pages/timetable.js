@@ -1,6 +1,10 @@
 import styles from "../styles/pages/timetable.module.css"
+import checkLogin from "../functions/checklogin";
+import { useEffect } from "react";
 
 const timetable = () => {
+    useEffect(() => checkLogin(), []); 
+
     return (
         <>
             <header className={styles.header}>
