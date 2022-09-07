@@ -19,11 +19,11 @@ class UserNotLoginedError extends Error {
     }
 }
 
-class UserHasNoDevicesError extends Error{
+class UserHasNoPermission extends Error{
     constructor(message){
         super(message);
-        this.name = "UserHasNoDevices";
+        this.name = "UserHasNoPermission";
     }
 };
 
-module.exports = {UserNotFoundError, UserLoginDataIncorrectError, UserNotLoginedError, UserHasNoDevicesError};
+module.exports = {UserNotFoundError, UserLoginDataIncorrectError, UserNotLoginedError, UserHasNoPermission};

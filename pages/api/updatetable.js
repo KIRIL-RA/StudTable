@@ -1,7 +1,8 @@
-const { UserLoginDataIncorrectError, UserNotFoundError } = require("../../classes/Exceptions/UserExceptions");
+const { UserLoginDataIncorrectError, UserNotFoundError, UserHasNoPermission } = require("../../classes/Exceptions/UserExceptions");
 const ResponseSamples = require("../../classes/ResponseSamples");
 const StatusCodes = require("../static/StatusCodes.json");
 const TableTypes = require("../static/TableTypes.json");
+const Action = require("../static/Actions.json");
 const { DayOfWeek } = require("../../classes/TimeTable");
 const { DBWork, StudTableDatabase } = require('../../classes/databaseWork');
 const { UserWithToken } = require("../../classes/User");
@@ -33,6 +34,7 @@ export default async function handler(req, res) {
         await Database.Connect();
         let user = new UserWithToken(userId, sessionToken, Database);
         await user.Login();
+        if(!user.CheckPermission(Action.UPDATE_TIMETAMLE)) throw new UserHasNoPermission("Not permitted");
 
         // What user want to update
         switch (request) {

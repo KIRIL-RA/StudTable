@@ -1,6 +1,8 @@
 const { NotAllParametersWereRecievedError } = require("./Exceptions/CommonExceptions");
 const { UserLoginDataIncorrectError, UserNotFoundError, UserNotLoginedError, UserHasNoDevicesError } = require("./Exceptions/UserExceptions");
 const AccountTypes = require("../pages/static/AccountTypes.json");
+const SpecificPermissions = require("../pages/static/SpecificPermissions.json");
+const Actions = require("../pages/static/Actions.json");
 const DBWork = require("./databaseWork");
 
 // Get hash from string
@@ -104,7 +106,40 @@ class UserWithToken extends User {
             }
         }
     }
+    /**
+     * Check is user has permission to make some action
+     * @param {string} action
+     */
+    CheckPermission(action){
+        switch(action){
+            case Actions.UPDATE_TIMETAMLE:
+                if((this.userData.accountType === AccountTypes.HEADMAN_GROUP) && this.userData.isConfirmed) return true;
+                else return false;
 
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * @return List of specific user permissions
+     */
+    GetSpecificPermissions(){
+        let permissions =[];
+        let accountType = this.userData.accountType;
+        let isConfirmed = this.userData.isConfirmed;
+
+        switch(accountType){
+
+            case AccountTypes.HEADMAN_GROUP:
+                if(isConfirmed){
+                    permissions.push(SpecificPermissions.UPDATE_TIME_TABLE);
+                }
+                break;
+        }
+
+        return permissions;
+    }
 }
 
 class UserWithPassword extends User {
