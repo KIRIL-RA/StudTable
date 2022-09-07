@@ -8,6 +8,11 @@ import styles from '../styles/pages/login.module.css'
 const login = () => {
     const [serverError, setServerError] = useState('');
 
+    useEffect(() => {
+        fetch(`${parameters.API_HOST}/checklogin`).then(res => res.json()).then(result => result.statusCode === '100' ? Router.push('/timetable') : null)
+          // eslint-disable-next-line
+      },[])
+
     const formik = useFormik({
         initialValues: {
             username: '', 

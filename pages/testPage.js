@@ -35,6 +35,10 @@ const testPage = () => {
 
         request(`${parameters.API_HOST}/getdisciplinies`, 'POST', JSON.stringify(body));
     };
+    
+    const ZZZ = () => {
+        request(`${parameters.API_HOST}/checklogin`, 'POST')
+    }
 
     let date = new Date; 
 
@@ -43,6 +47,7 @@ const testPage = () => {
             <button onClick={() => onClickedUpdateTTPP()}>Update time table permanent permanent</button>
             <button onClick={() => onClickedGetTT()}>Get time table</button>
             <button onClick={() => onClickedGetLessons()}>Get available lessons</button>
+            <button onClick={() => ZZZ()}>ZZZ</button>
         </div>
     )
 }
