@@ -21,9 +21,10 @@ class DayOfWeek{
      * @param {string} academyId
      * @param {string} direction
      * @param {string} group
+     * @param {string} course
      * @param {object} changes
      */
-    constructor(DBWork, day, academyId, direction, group, changes = undefined){
+    constructor(DBWork, day, academyId, direction, group, course, changes = undefined){
         if (DBWork === undefined || DBWork === null) throw new NotAllParametersWereRecievedError("You must specify all parameters");
 
         this.database = DBWork;
@@ -31,6 +32,7 @@ class DayOfWeek{
         this.academyId = academyId;
         this.direction = direction;
         this.group = group;
+        this.course = course
         this.changes = changes;
     }
 
@@ -79,7 +81,7 @@ class DayOfWeek{
         }
 
         timeTableDays[this.day] = newTimeTable;
-        await this.database.UpdateTimeTable(this.academyId, this.direction, this.group, this.day, timeTableDays);
+        await this.database.UpdateTimeTable(this.academyId, this.direction, this.group, this.course, timeTableDays);
     }
 
     /**
@@ -87,7 +89,7 @@ class DayOfWeek{
      */
     async GetTimeTable(){
         const database = this.database;
-        let result = await database.GetTimeTable(this.academyId, this.direction, this.group);
+        let result = await database.GetTimeTable(this.academyId, this.direction, this.group, this.course);
 
         return result.table;
     }
@@ -111,9 +113,10 @@ class SpecificDay{
      * @param {string} academyId
      * @param {string} direction
      * @param {string} group
+     * @param {string} course
      * @param {object} changes
      */
-    constructor(DBWork, day, academyId, direction, group, changes = undefined){
+    constructor(DBWork, day, academyId, direction, group, course, changes = undefined){
         if (DBWork === undefined || DBWork === null) throw new NotAllParametersWereRecievedError("You must specify all parameters");
 
         this.database = DBWork;
@@ -121,6 +124,7 @@ class SpecificDay{
         this.academyId = academyId;
         this.direction = direction;
         this.group = group;
+        this.course = course;
         this.changes = changes;
     }
 
@@ -139,11 +143,11 @@ class SpecificDay{
         let date = this.GetFormattedDate();
 
         // If day have any deviations from main timeTable
-        let result = await database.GetTimeTable(this.academyId, this.direction, this.group, date.dateString);
+        let result = await database.GetTimeTable(this.academyId, this.direction, this.group, this.course, date.dateString);
         if(result != null) return result.table;
 
         // If day doesnt have any deviations from main timeTable
-        result = await database.GetTimeTable(this.academyId, this.direction, this.group);
+        result = await database.GetTimeTable(this.academyId, this.direction, this.group, this.course);
         return result.table[daysOfWeekArr[date.weekDay-1]];
     }
 

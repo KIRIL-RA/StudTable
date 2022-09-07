@@ -58,10 +58,11 @@ class DBWork {
      * @param {string} academyId 
      * @param {string} direction 
      * @param {string} group 
+     * @param {string} course
      * @param {string} date Set this parameter, if you want get timeTable of specific day
      * @returns 
      */
-    async GetTimeTable(academyId, direction, group, date = undefined) {
+    async GetTimeTable(academyId, direction, group, course, date = undefined) {
         if (academyId === undefined || direction == undefined || group === undefined) throw new NotAllParametersWereRecievedError("Not all parameters were recieved");
         const datataBase = this.mongoClient.db(dbName);
         let collection;
@@ -74,7 +75,8 @@ class DBWork {
                 result = await collection.findOne({
                     academyId: academyId,
                     direction: direction,
-                    group: group
+                    group: group,
+                    course: course
                 });
                 break;
 
@@ -115,14 +117,15 @@ class DBWork {
      * @param {String} day 
      * @param {any} newTimeTable 
      */
-    async UpdateTimeTable(academyId, direction, group, day, newTimeTable){
+    async UpdateTimeTable(academyId, direction, group, course, newTimeTable){
         const datataBase = this.mongoClient.db(dbName);
         const collection = datataBase.collection(timeTablePermanentCollection);
 
         collection.updateOne({
             academyId: academyId,
             direction: direction,
-            group: group
+            group: group,
+            course: course
         }, {$set: { table: newTimeTable}});
     }
 

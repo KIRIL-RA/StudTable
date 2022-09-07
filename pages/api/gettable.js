@@ -50,7 +50,7 @@ export default async function handler(req, res) {
 
                 // Get time table
                 academyInfo = user.userData.academy;
-                dayTimeTable = new DayOfWeek(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group);
+                dayTimeTable = new DayOfWeek(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group, academyInfo.course);
                 timeTable = await dayTimeTable.GetTimeTable();
                 timeTable = timeTable[day];
                 console.log(timeTable);
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
 
                 // Get time table
                 academyInfo = user.userData.academy;
-                dayTimeTable = new SpecificDay(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group);
+                dayTimeTable = new SpecificDay(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group, academyInfo.course);
                 timeTable = await dayTimeTable.GetTimeTable();
                 break;
         }

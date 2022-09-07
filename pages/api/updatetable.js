@@ -48,7 +48,7 @@ export default async function handler(req, res) {
                 }
 
                 let academyInfo = user.userData.academy;
-                let dayTimeTable = new DayOfWeek(Database, dayToUpdate, academyInfo.id, academyInfo.directionId, academyInfo.group, changes);
+                let dayTimeTable = new DayOfWeek(Database, dayToUpdate, academyInfo.id, academyInfo.directionId, academyInfo.group, academyInfo.course, changes);
                 await dayTimeTable.UpdateTimeTable();
 
             break;
