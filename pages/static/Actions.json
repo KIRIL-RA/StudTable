@@ -1,3 +1,4 @@
 {
-    "UPDATE_TIMETAMLE":"updtt"
+    "UPDATE_TIMETABLE":"updtt", 
+    "GET_TIMETABLE":"gtt"
 }

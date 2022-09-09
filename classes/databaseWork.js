@@ -54,6 +54,19 @@ class DBWork {
     }
 
     /**
+     * Adding new user to database
+     * @param {any} userData 
+     */
+     async AddNewUser(userData) {
+        if (userData === undefined) throw new NotAllParametersWereRecievedError("Not all parameters were recieved"); // Check,  is all parameters were recieved
+
+        const datataBase = this.mongoClient.db(dbName);
+        const userCollection = datataBase.collection(usersCollection);
+
+        await userCollection.insertOne(userData);
+    }
+    
+    /**
      * Getting time table
      * @param {string} academyId 
      * @param {string} direction 

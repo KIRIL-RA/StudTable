@@ -1,36 +1,36 @@
 const { UserLoginDataIncorrectError, UserNotFoundError } = require("../../classes/Exceptions/UserExceptions");
 const ResponseSamples = require("../../classes/ResponseSamples");
 const StatusCodes = require("../static/StatusCodes.json");
+const AccountTypes = require("../static/AccountTypes.json");
 const { DBWork, StudTableDatabase } = require('../../classes/databaseWork');
 const { UserWithPassword } = require("../../classes/User");
 import { setCookie } from 'cookies-next';
 var Database = StudTableDatabase;
 
 export default async function handler(req, res) {
-    let userName = req.query.username;
-    let userPassword = req.query.password;
+    let userName = req.body.userName;
+    let userPassword = req.body.password;
+    let userEmail = req.body.email;
+    let registryData = req.body;
+    let realInfo = req.body.realInfo;
 
     if (userName === undefined ||
-        userPassword === undefined) {
+        userPassword === undefined ||
+        userEmail === undefined) {
         // If not all parameters were recieved send response, and stop saving file
         res.end(ResponseSamples.DefaultResponse("Not all parameters were recieved", StatusCodes.NOT_ALL_PARAMETERS_WERE_RECIEVED));
         return;
     }
 
-    // Check is user exist and login data correct
+    // Registry new user
     try {
-        // Connecting to DB and create user copy
+        // Connecting to DB
         await Database.Connect();
         let user = new UserWithPassword(userName, userPassword, Database);
 
-        await user.Login();
-        await user.CreateNewSession();
+        await user.Registry(registryData.accountType, registryData.academyInfo, userEmail, realInfo);
 
-        let userData = user.userData;
-        
-        setCookie("sessionToken", userData.sessionToken,{ req, res, maxAge: 60 * 60 * 24, httpOnly: true });
-        setCookie("userId", userData.userId,{ req, res, maxAge: 60 * 60 * 24, httpOnly: true });
-        res.send(ResponseSamples.DefaultResponse("Sucessfully logined", StatusCodes.OK));
+        res.send(ResponseSamples.DefaultResponse("Sucessfully registrated", StatusCodes.OK));
         return;
     }
 

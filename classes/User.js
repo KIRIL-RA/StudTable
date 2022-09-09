@@ -110,10 +110,14 @@ class UserWithToken extends User {
      * Check is user has permission to make some action
      * @param {string} action
      */
-    CheckPermission(action){
-        switch(action){
-            case Actions.UPDATE_TIMETAMLE:
-                if((this.userData.accountType === AccountTypes.HEADMAN_GROUP) && this.userData.isConfirmed) return true;
+    CheckPermission(action) {
+        switch (action) {
+            case Actions.UPDATE_TIMETABLE:
+                if ((this.userData.accountType === AccountTypes.HEADMAN_GROUP) && this.userData.isConfirmed) return true;
+                else return false;
+
+            case Actions.GET_TIMETABLE:
+                if(this.userData.isConfirmed) return true;
                 else return false;
 
             default:
@@ -124,15 +128,15 @@ class UserWithToken extends User {
     /**
      * @return List of specific user permissions
      */
-    GetSpecificPermissions(){
-        let permissions =[];
+    GetSpecificPermissions() {
+        let permissions = [];
         let accountType = this.userData.accountType;
         let isConfirmed = this.userData.isConfirmed;
 
-        switch(accountType){
+        switch (accountType) {
 
             case AccountTypes.HEADMAN_GROUP:
-                if(isConfirmed){
+                if (isConfirmed) {
                     permissions.push(SpecificPermissions.UPDATE_TIME_TABLE);
                 }
                 break;
@@ -193,10 +197,41 @@ class UserWithPassword extends User {
     }
 
     /**
-     * Registry new user
-     * @param {any} accountType 
+     * Validate data for registration
+     * @param {string} accountType
+     * @param {object} data 
      */
-    async Registry(accountType){
+    ValidateRegistryData(accountType, data, realInfo) {
+        switch (accountType) {
+            // If we registry student/group headman
+            case AccountTypes.STUDENT:
+            case AccountTypes.HEADMAN_GROUP:
+                if (data.id === undefined ||
+                    data.directionId === undefined ||
+                    data.group === undefined ||
+                    data.faculty === undefined ||
+                    data.course === undefined ||
+                    data.studentIdNumber === undefined)
+                    throw new NotAllParametersWereRecievedError("Not all registry parameters were recieved");
+                break;
+        }
+
+        if (realInfo === undefined ||
+            realInfo.firstName === undefined ||
+            realInfo.secondName === undefined)
+            throw new NotAllParametersWereRecievedError("Not all registry parameters were recieved");
+    }
+
+    /**
+     * Registry new user
+     * @param {any} accountType
+     * @param {string} academyInfo 
+     */
+    async Registry(accountType, academyInfo, eMail, realInfo) {
+
+        // Validate recieved data
+        this.ValidateRegistryData(accountType, academyInfo, realInfo);
+
         let date_ob = new Date();
 
         // Get date s
@@ -212,22 +247,20 @@ class UserWithPassword extends User {
         let accountId = cyrb53(stringToHash);
 
         this.userData.accessLevel = accountType;
-        this.userData.userId = accountId;
+        this.userData.userId = String(accountId);
+        this.userData.isConfirmed = false;
         this.userData.sessions = [];
+        this.userData.eMail = eMail;
+        this.userData.realInfo = realInfo;
 
-        switch(accountType){
-            case AccountTypes.FARMER:
-                this.userData.farms = [];
-                this.userData.specialCultures = [];
-                break;
-
-            case AccountTypes.WORKER:
-                this.userData.rate = 5.0;
-                break;
-
-            default:
-                break;
-        }
+        this.userData.academy = {
+            id: academyInfo.id,
+            directionId: academyInfo.directionId,
+            group: academyInfo.group,
+            faculty: academyInfo.faculty,
+            course: academyInfo.course,
+            studentIdNumber: academyInfo.studentIdNumber
+        };
 
         await this.dbWork.AddNewUser(this.userData);
     }

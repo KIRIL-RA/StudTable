@@ -1,7 +1,8 @@
-const { UserLoginDataIncorrectError, UserNotFoundError } = require("../../classes/Exceptions/UserExceptions");
+const { UserLoginDataIncorrectError, UserNotFoundError, UserHasNoPermission } = require("../../classes/Exceptions/UserExceptions");
 const ResponseSamples = require("../../classes/ResponseSamples");
 const StatusCodes = require("../static/StatusCodes.json");
 const TableTypes = require("../static/TableTypes.json");
+const Actions = require("../static/Actions.json");
 const { DayOfWeek, SpecificDay } = require("../../classes/TimeTable");
 const { DBWork, StudTableDatabase } = require('../../classes/databaseWork');
 const { UserWithToken } = require("../../classes/User");
@@ -35,6 +36,7 @@ export default async function handler(req, res) {
         let timeTable;
         let user = new UserWithToken(userId, sessionToken, Database);
         await user.Login();
+        if(!user.CheckPermission(Actions.GET_TIMETABLE)) throw new UserHasNoPermission("Not permitted");
 
         // What user want to get
         switch(request){
@@ -53,7 +55,6 @@ export default async function handler(req, res) {
                 dayTimeTable = new DayOfWeek(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group, academyInfo.course);
                 timeTable = await dayTimeTable.GetTimeTable();
                 timeTable = timeTable[day];
-                console.log(timeTable);
                 break;
 
             case TableTypes.AT_SPECIFIC_DAY:
