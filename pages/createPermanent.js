@@ -1,45 +1,70 @@
 import DaySelector from "../components/common/DaySelector/DaySelector";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useHttp from '../hooks/useHttps'
 const parameters = require('../parameters.json')
-import { timetableFetching, timetableFetched, timetableFetchingError } from "../actions/actions";
+import { timetableFetching, timetableFetched, timetableFetchingError, setSelectedDay } from "../actions/actions";
 import checkLogin from "../functions/checklogin";
 import ChangeTimetableModal from "../components/common/ChangeTimetableModal/ChangeTimetableModal";
-import { useState } from "react";
-
+import useHttp from "../hooks/useHttps";
 
 const createPermanent = () => {
     const [isVisiable, setIsVisiable] = useState(false);
-    const { request } = useHttp();
+    const [lessionNum, setLessionNum] = useState();
     const {selectedDay, timetable} = useSelector(state => state.reducer);
     const dispatch = useDispatch();
-    const onClose = () => setIsVisiable(!isVisiable);
-    useEffect(() => checkLogin(), [])
+    const onOpen = (i) => {
+        setIsVisiable(true)
+        setLessionNum(i)
+    }
+    const onClose = () => {
+        setIsVisiable(false)
+    };
+
+    const { request } = useHttp();
+
+    const fetchTimetable = () => {
+        dispatch(timetableFetching())
+        let body = {request: 'per', day: selectedDay}
+
+        request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body))
+            .then(result => dispatch(timetableFetched(result.data)))
+            .catch(() => dispatch(timetableFetchingError()))
+    }
+    useEffect(() => checkLogin(), []); 
 
     useEffect(() => {
         if (selectedDay !== ''){
-            dispatch(timetableFetching())
-            let body = `{"request": "per", "day": "${selectedDay}"}`
-
-            request(`${parameters.API_HOST}/gettable`, 'POST', body)
-                .then(result => dispatch(timetableFetched(result.data)))
-                .catch(() => dispatch(timetableFetchingError()))
+            fetchTimetable()
         }
     }, [selectedDay])
+    
+    let timetableList = Object.keys(timetable).map((item, i) => {
+
+        return (
+            <>
+                <div key={i+1} onClick={() => onOpen(i)}>
+                    <div>{timetable[item].time}</div>
+                    <div>
+                        <span>{timetable[item].lessionName}</span>
+                        <br></br>
+                        <span>{timetable[item].teacher}</span>
+                    </div>
+                    <div>{timetable[item].audience}</div>
+                    {timetable[item].type === null ? <p></p> : null}
+                </div>
+                <br></br>
+            </>
+        )
+    })
+
     return (
         <>
-            <div>Header</div>
+            <h1>Stubtable</h1>
             <div>
                 <h3>Обновление расписания:</h3>
                 <DaySelector />
-                <div onClick={onClose}>
-                    <h1>{timetable[0]?.lessionName}</h1>
-                </div>
-                <div onClick={onClose}>
-                    {timetable[1]?.type === null ? <h1>Окно</h1> : null}
-                </div>
-                <ChangeTimetableModal isVisiable={isVisiable} onClose = {onClose}></ChangeTimetableModal>
+                {timetableList}
+                <ChangeTimetableModal isVisiable={isVisiable} onClose = {onClose} lessionNum={lessionNum} fetchTimetable={fetchTimetable}></ChangeTimetableModal>
             </div>
         </>
     )

@@ -4,19 +4,41 @@ import { useEffect } from "react";
 import getDayString from '../functions/getDayString'
 import useHttp from "../hooks/useHttps";
 const parameters = require('../parameters.json')
+import getCurrentDate from "../functions/getCurrentDate";
+import { useSelector, useDispatch } from "react-redux";
+import { timetableFetching, timetableFetched, timetableFetchingError} from '../actions/actions'
 
 const timetable = () => {
     const { request } = useHttp();
+    const dispatch = useDispatch();
     useEffect(() => checkLogin(), []); 
 
+    const {timetable} = useSelector(state => state.reducer)
+
     useEffect(() => {
-        /* dispatch(timetableFetching()) */
+        dispatch(timetableFetching())
         let body = {request: 'per', day: 'Monday'} //заменить статичную хуету на getDayString
 
         request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body))
-            .then(/* result => dispatch(timetableFetched(result.data)) */r => console.log(r))
-            /* .catch(() => dispatch(timetableFetchingError())) */
+            .then(result => dispatch(timetableFetched(result.data)))
+            .catch(() => dispatch(timetableFetchingError()))
     }, [/* selectedDay */])
+
+    let timetableList = Object.keys(timetable).map(item => {
+
+        return (
+            <div className={styles.timetable__item} key={timetable[item].time}>
+                <div>{timetable[item].time}</div>
+                <div>
+                    <span>{timetable[item].lessionName}</span>
+                    <br></br>
+                    <span>{timetable[item].teacher}</span>
+                </div>
+                <div>{timetable[item].audience}</div>
+                {timetable[item].type === null ? <p></p> : null}
+            </div>
+        )
+    })
 
     return (
         <>
@@ -24,36 +46,9 @@ const timetable = () => {
                 <h1 className={styles.header__title}>Stubtable</h1>
             </header>
             <main>
-                <h2 className={styles.main__title}>Понедельник, 5 сентября</h2>
+                <h2 className={styles.main__title}>{getCurrentDate()}</h2>
                 <div className={styles.timetable__wrapper}>
-                    <div className={styles.timetable__item}>
-                        <div>8:00-9:35</div>
-                        <div>
-                            <span>Мат. Анализ</span>
-                            <br></br>
-                            <span>Платенова О.К.</span>
-                        </div>
-                        <div>436</div>
-                    </div>
-                    <div className={styles.timetable__item}>
-                        <div>8:00-9:35</div>
-                        <div>
-                            <span>Мат. Анализ</span>
-                            <br></br>
-                            <span>Платенова О.К.</span>
-                        </div>
-                        <div>436</div>
-                    </div>
-                    <div className={styles.timetable__item}>
-                        <div>8:00-9:35</div>
-                        <div>
-                            <span>Мат. Анализ</span>
-                            <br></br>
-                            <span>Платенова О.К.</span>
-                        </div>
-                        <div>436</div>
-                    </div>
-                    <a href="/profile">ZZZZZZZ </a>
+                    {timetableList}
                 </div>
             </main>
         </>

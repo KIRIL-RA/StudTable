@@ -30,10 +30,9 @@ const testPage = () => {
     };
 
     const onClickedGetLessons = () => {
-        let body = {
-        };
 
-        request(`${parameters.API_HOST}/getdisciplinies`, 'POST', JSON.stringify(body));
+
+        request(`${parameters.API_HOST}/getdisciplinies`, 'POST');
     };
     
     const onClickedCheckLogin = () => {
