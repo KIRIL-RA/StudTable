@@ -5,13 +5,16 @@ import useHttp from '../hooks/useHttps'
 const parameters = require('../parameters.json')
 import { timetableFetching, timetableFetched, timetableFetchingError } from "../actions/actions";
 import checkLogin from "../functions/checklogin";
+import ChangeTimetableModal from "../components/common/ChangeTimetableModal/ChangeTimetableModal";
+import { useState } from "react";
 
 
 const createPermanent = () => {
+    const [isVisiable, setIsVisiable] = useState(false);
     const { request } = useHttp();
     const {selectedDay, timetable} = useSelector(state => state.reducer);
     const dispatch = useDispatch();
-
+    const onClose = () => setIsVisiable(!isVisiable);
     useEffect(() => checkLogin(), [])
 
     useEffect(() => {
@@ -30,27 +33,13 @@ const createPermanent = () => {
             <div>
                 <h3>Обновление расписания:</h3>
                 <DaySelector />
-                <div>
+                <div onClick={onClose}>
                     <h1>{timetable[0]?.lessionName}</h1>
-                    <h2>{timetable[0]?.teacher}</h2>
-                    <h2>{timetable[0]?.audice}</h2>
                 </div>
-                <div>
-                    <h1>{timetable[1]?.lessionName}</h1>
+                <div onClick={onClose}>
+                    {timetable[1]?.type === null ? <h1>Окно</h1> : null}
                 </div>
-                <div>
-                    <h1>{timetable[2]?.lessionName}</h1>
-                </div>
-                <div>
-                    <h1>{timetable[3]?.lessionName}</h1>
-                </div>
-                <div>
-                    <h1>{timetable[4]?.lessionName}</h1>
-                </div>
-                <div>
-                    <h1>{timetable[5]?.lessionName}</h1>
-                </div>
-        
+                <ChangeTimetableModal isVisiable={isVisiable} onClose = {onClose}></ChangeTimetableModal>
             </div>
         </>
     )
