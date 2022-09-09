@@ -1,9 +1,22 @@
 import styles from "../styles/pages/timetable.module.css"
 import checkLogin from "../functions/checklogin";
 import { useEffect } from "react";
+import getDayString from '../functions/getDayString'
+import useHttp from "../hooks/useHttps";
+const parameters = require('../parameters.json')
 
 const timetable = () => {
+    const { request } = useHttp();
     useEffect(() => checkLogin(), []); 
+
+    useEffect(() => {
+        /* dispatch(timetableFetching()) */
+        let body = {request: 'per', day: 'Monday'} //заменить статичную хуету на getDayString
+
+        request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body))
+            .then(/* result => dispatch(timetableFetched(result.data)) */r => console.log(r))
+            /* .catch(() => dispatch(timetableFetchingError())) */
+    }, [/* selectedDay */])
 
     return (
         <>
