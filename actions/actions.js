@@ -23,3 +23,22 @@ export const timetableFetchingError = () => {
         type: 'TIMETABLE_FETCHING_ERROR'
     }
 }
+
+export const discliplinesFetching = () => {
+    return { 
+        type: 'DISCLIPLINES_FETCHING'
+    }
+}
+
+export const discliplinesFetched = (discliplines) => {
+    return {
+        type: 'DISCLIPLINES_FETCHED',
+        payload: discliplines
+    }
+}
+
+export const discliplinesFetchingError = () => {
+    return {
+        type: 'DISCLIPLINES_FETCHING_ERROR'
+    }
+}
