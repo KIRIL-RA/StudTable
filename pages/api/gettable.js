@@ -54,7 +54,7 @@ export default async function handler(req, res) {
                 academyInfo = user.userData.academy;
                 dayTimeTable = new DayOfWeek(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group, academyInfo.course);
                 timeTable = await dayTimeTable.GetTimeTable();
-                timeTable = timeTable[day];
+                timeTable = timeTable;
                 break;
 
             case TableTypes.AT_SPECIFIC_DAY:

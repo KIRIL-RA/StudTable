@@ -90,8 +90,23 @@ class DayOfWeek{
     async GetTimeTable(){
         const database = this.database;
         let result = await database.GetTimeTable(this.academyId, this.direction, this.group, this.course);
+        let dayTimeTable = result.table[this.day];
 
-        return result.table;
+        // If timeTable for this day of week exist
+        if(dayTimeTable !== undefined)return dayTimeTable;
+
+        // If timeTable for this day of week not exist, forming object without lessons
+        dayTimeTable = {};
+        let timeGrid = await this.GetTimeGrid();
+        let timeGridKeys = Object.keys(timeGrid);
+        timeGridKeys.forEach(lessonNum =>{
+            dayTimeTable[lessonNum] = {
+                type: null,
+                time: timeGrid[lessonNum]
+            }
+        });
+
+        return dayTimeTable;
     }
 
     /**

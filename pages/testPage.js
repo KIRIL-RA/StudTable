@@ -22,7 +22,7 @@ const testPage = () => {
 
     const onClickedGetTT = () => {
         let body = {
-            day: "Monday",
+            day: "Wednesday",
             request:"per"
         };
 
