@@ -1,18 +1,18 @@
-const { UserLoginDataIncorrectError, UserNotFoundError } = require("../../classes/Exceptions/UserExceptions");
+const { UserLoginDataIncorrectError, UserNotFoundError, UserHasNoPermission } = require("../../classes/Exceptions/UserExceptions");
 const ResponseSamples = require("../../classes/ResponseSamples");
 const StatusCodes = require("../static/StatusCodes.json");
-const TableTypes = require("../static/TableTypes.json");
-const { DayOfWeek, SpecificDay } = require("../../classes/TimeTable");
+const AccountTypes = require("../static/AccountTypes.json");
+const Actions = require("../static/Actions.json");
+const { Academy } = require("../../classes/Academy");
+const { DayOfWeek } = require("../../classes/TimeTable");
 const { DBWork, StudTableDatabase } = require('../../classes/databaseWork');
 const { UserWithToken } = require("../../classes/User");
-const {Academy} = require("../../classes/Academy");
 import { getCookie } from 'cookies-next';
 var Database = StudTableDatabase;
 
 export default async function handler(req, res) {
-    let userId = getCookie('userId', {req, res});
-    let sessionToken = getCookie('sessionToken', {req, res});
-    let direction = req.body.direction;
+    let userId = getCookie('userId', { req, res });
+    let sessionToken = getCookie('sessionToken', { req, res });
 
     if (userId === undefined ||
         sessionToken === undefined) {
@@ -21,27 +21,29 @@ export default async function handler(req, res) {
         return;
     }
 
-    try{
+    try {
         // Check is session data is valid
         await Database.Connect();
         let user = new UserWithToken(userId, sessionToken, Database);
-        let disciplinies;
         await user.Login();
-        let academyInfo = user.userData.academy;
+        if (!user.CheckPermission(Actions.GET_UNCONFIRMED_ACCOUNTS)) throw new UserHasNoPermission("Not permitted");
+        let userData = user.userData;
+        let academyInfo = userData.academy;
 
         let academy = new Academy(Database, academyInfo.id);
         await academy.Init();
+        let notConfirmedAccounts = await academy.GetUnconfirmedAccounts(userData.academy.directionId,
+            userData.academy.course,
+            userData.academy.group,
+            AccountTypes.STUDENT);
 
-        // If user wants to get available only for his direction disciplinies
-        if(direction === undefined) disciplinies = academy.GetDisciplinies(academyInfo.directionId, academyInfo.faculty);
-
-        res.setHeader('Accept-Encoding','gzip, deflate, br');
-        res.setHeader('Accept-Language','ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7');
+        res.setHeader('Accept-Encoding', 'gzip, deflate, br');
+        res.setHeader('Accept-Language', 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7');
         res.setHeader('Content-Type', 'application/json');
-        res.send(ResponseSamples.Data(disciplinies, StatusCodes.OK));
-   }
+        res.send(ResponseSamples.Data(notConfirmedAccounts, StatusCodes.OK));
+    }
 
-    catch(e){
+    catch (e) {
         switch (e.name) {
             case new UserNotFoundError().name:
                 res.send(ResponseSamples.DefaultResponse("Incorrect user login data", StatusCodes.USER_LOGIN_ERROR));

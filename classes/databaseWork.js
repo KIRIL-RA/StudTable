@@ -57,7 +57,7 @@ class DBWork {
      * Adding new user to database
      * @param {any} userData 
      */
-     async AddNewUser(userData) {
+    async AddNewUser(userData) {
         if (userData === undefined) throw new NotAllParametersWereRecievedError("Not all parameters were recieved"); // Check,  is all parameters were recieved
 
         const datataBase = this.mongoClient.db(dbName);
@@ -65,7 +65,37 @@ class DBWork {
 
         await userCollection.insertOne(userData);
     }
-    
+
+
+    /**
+     * Get uncofirmed account for concrete course
+     * @param {any} academyId 
+     * @param {any} directionId 
+     * @param {any} course 
+     * @param {any} group 
+     */
+    async GetUnconfirmedAccounts(academyId, directionId, course, group, accountType) {
+        if (academyId === undefined ||
+            directionId === undefined ||
+            course === undefined ||
+            group === undefined ||
+            accountType === undefined) throw new NotAllParametersWereRecievedError("Not all parameters were recieved"); // Check,  is all parameters were recieved
+
+        const datataBase = this.mongoClient.db(dbName);
+        const collection = datataBase.collection(usersCollection);
+
+        let result = await collection.find({
+            accountType: accountType,
+            isConfirmed: false,
+            "academy.id": academyId,
+            "academy.directionId": directionId,
+            "academy.group": group,
+            "academy.course": course
+        });
+
+        return result.toArray();
+    }
+
     /**
      * Getting time table
      * @param {string} academyId 
@@ -112,12 +142,12 @@ class DBWork {
      * Getting info about university
      * @param {string} academyId 
      */
-    async GetUniversityInfo(academyId){
-        if(academyId === undefined) throw new NotAllParametersWereRecievedError("Not all parameters were recieved");
+    async GetUniversityInfo(academyId) {
+        if (academyId === undefined) throw new NotAllParametersWereRecievedError("Not all parameters were recieved");
 
         const datataBase = this.mongoClient.db(dbName);
         const collection = datataBase.collection(academiesCollection);
-        let result = await collection.findOne({id: academyId});
+        let result = await collection.findOne({ id: academyId });
 
         return result;
     }
@@ -130,7 +160,7 @@ class DBWork {
      * @param {String} day 
      * @param {any} newTimeTable 
      */
-    async UpdateTimeTable(academyId, direction, group, course, newTimeTable){
+    async UpdateTimeTable(academyId, direction, group, course, newTimeTable) {
         const datataBase = this.mongoClient.db(dbName);
         const collection = datataBase.collection(timeTablePermanentCollection);
 
@@ -139,7 +169,7 @@ class DBWork {
             direction: direction,
             group: group,
             course: course
-        }, {$set: { table: newTimeTable}});
+        }, { $set: { table: newTimeTable } });
     }
 
     isConnected() {

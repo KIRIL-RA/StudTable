@@ -66,6 +66,10 @@ const testPage = () => {
         request(`${parameters.API_HOST}/getuserinfo`, 'POST')
     }
 
+    const onClickedGetUncofirmedAccounts = () => {
+        request(`${parameters.API_HOST}/getunconfirmedaccounts`, 'POST')
+    }
+
     return (
         <div>
             <button onClick={() => onClickedUpdateTTPP()}>Update time table permanent permanent</button>
@@ -74,6 +78,7 @@ const testPage = () => {
             <button onClick={() => onClickedCheckLogin()}>Check login</button>
             <button onClick={() => onClickedregisryNewUser()}>Registry new user</button>
             <button onClick={() => onClickedGetInfo()}>Get user info</button>
+            <button onClick={() => onClickedGetUncofirmedAccounts()}>Get uncofirmed accounts</button>
         </div>
     )
 }

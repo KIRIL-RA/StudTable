@@ -112,6 +112,9 @@ class UserWithToken extends User {
      */
     CheckPermission(action) {
         switch (action) {
+
+            // Group headman perrmissions
+            case Actions.GET_UNCONFIRMED_ACCOUNTS:
             case Actions.UPDATE_TIMETABLE:
                 if ((this.userData.accountType === AccountTypes.HEADMAN_GROUP) && this.userData.isConfirmed) return true;
                 else return false;
@@ -138,6 +141,7 @@ class UserWithToken extends User {
             case AccountTypes.HEADMAN_GROUP:
                 if (isConfirmed) {
                     permissions.push(SpecificPermissions.UPDATE_TIME_TABLE);
+                    permissions.push(SpecificPermissions.CONFIRM_ACCOUNT);
                 }
                 break;
         }
@@ -246,7 +250,7 @@ class UserWithPassword extends User {
         let stringToHash = date + month + year + hours + minutes + seconds + this.userData.userName;
         let accountId = cyrb53(stringToHash);
 
-        this.userData.accessLevel = accountType;
+        this.userData.accountType = accountType;
         this.userData.userId = String(accountId);
         this.userData.isConfirmed = false;
         this.userData.sessions = [];

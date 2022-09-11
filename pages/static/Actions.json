@@ -1,4 +1,6 @@
 {
     "UPDATE_TIMETABLE":"updtt", 
-    "GET_TIMETABLE":"gtt"
+    "GET_TIMETABLE":"gtt",
+    "GET_UNCONFIRMED_ACCOUNTS":"gua",
+    "CONFIRM_ACCOUNT":"ca"
 }
