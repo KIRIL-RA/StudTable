@@ -42,3 +42,22 @@ export const discliplinesFetchingError = () => {
         type: 'DISCLIPLINES_FETCHING_ERROR'
     }
 }
+
+export const userFetching = () => {
+    return {
+        type: 'USER_FETCHING'
+    }
+}
+
+export const userFetched = (user) => {
+    return { 
+        type: 'USER_FETCHED',
+        payload:user
+    }
+}
+
+export const userFetchingError = () => {
+    return {
+        type: 'USER_FETCHING_ERROR'
+    }
+}

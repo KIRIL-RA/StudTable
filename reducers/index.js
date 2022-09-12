@@ -3,8 +3,9 @@ const initialState = {
     timetable: {},
     timetableStatus: 'idle', 
     discliplines: '', 
-    discliplinesStatus: 'ídle', 
-    changes: {}
+    discliplinesStatus: 'ídle',
+    user: '',
+    userStatus: 'idle'
 }
 
 const reducer = (state = initialState, action) => {
@@ -45,6 +46,22 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state, 
                 discliplinesStatus: 'error'
+            }
+        case 'USER_FETCHING':
+            return {
+                ...state, 
+                userStatus: 'loading'
+            }
+        case 'USER_FETCHED': 
+            return {
+                ...state, 
+                userStatus: 'idle',
+                user: action.payload
+            }
+        case 'USER_FETCHING_ERROR': 
+            return {
+                ...state, 
+                userStatus: 'error'
             }
         default:
             return state

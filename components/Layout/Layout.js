@@ -6,7 +6,7 @@ import image from "../../images/toActionPage.svg"
 const Layout = () => {
     return(
         <div className={styles.wrapper}>
-            <Link href="/actions"><Image className={styles.first} src={image} width="30" height='30'/></Link>
+            <Link href="/actions"><a><Image className={styles.first} src={image} width="30" height='30'/></a></Link>
             <Link href="/timetable"><span className={styles.logo}>Stubtable</span></Link>
             <Link href="/profile"><span className={styles.third}>Кирилл</span></Link>
         </div>

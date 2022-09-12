@@ -11,8 +11,7 @@ import { discliplinesFetching, discliplinesFetched, discliplinesFetchingError, t
 
 const ChangeTimetableModal = ({ isVisiable, onClose, lessionNum, fetchTimetable}) => {
     const { request } = useHttp();
-    const {discliplines} = useSelector(state => state.reducer)
-    const { selectedDay } = useSelector(state => state.reducer);
+    const { discliplines, selectedDay, timetable } = useSelector(state => state.reducer)
     const dispatch = useDispatch();
 
     const formik =  useFormik({
@@ -77,7 +76,7 @@ const ChangeTimetableModal = ({ isVisiable, onClose, lessionNum, fetchTimetable}
     <div className={styles.Modal} /* onClick={onClose} */>
         <div className={styles.Modal__dialog}>
             <div className={styles.Modal__header}>
-                <span className={styles.Modal__title}>Изменить расписание</span>
+                <span className={styles.Modal__title}>Изменить пару {timetable[lessionNum].time}</span>
                 <span className={styles.Modal__close} onClick={onClose}>&times;</span>
             </div>
             <div className={styles.Modal__content}>

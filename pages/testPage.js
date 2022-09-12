@@ -91,6 +91,10 @@ const testPage = () => {
         request(`${parameters.API_HOST}/confirmaccount`, 'POST', JSON.stringify(body));
     };
 
+    const onClickGetSpecialPermicions = () => {
+        request(`${parameters.API_HOST}/getspecificpermissions`, 'POST')
+    }
+
     return (
         <div>
             <button onClick={() => onClickedUpdateTTPP()}>Update time table permanent permanent</button>
@@ -101,6 +105,7 @@ const testPage = () => {
             <button onClick={() => onClickedGetInfo()}>Get user info</button>
             <button onClick={() => onClickedGetUncofirmedAccounts()}>Get uncofirmed accounts</button>
             <button onClick={() => onClickedConfirmAccount()}>Confirm account</button>
+            <button onClick={() => onClickGetSpecialPermicions()}>JKSFAKIJSFHAKJSFHj</button>
         </div>
     )
 }

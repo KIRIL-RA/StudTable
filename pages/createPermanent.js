@@ -8,6 +8,7 @@ import ChangeTimetableModal from "../components/common/ChangeTimetableModal/Chan
 import useHttp from "../hooks/useHttps";
 import styles from "../styles/pages/createPermanent.module.css"
 import Layout from "../components/Layout/Layout";
+import checkPermissons from "../functions/checkPermissons"
 
 const createPermanent = () => {
     const [isVisiable, setIsVisiable] = useState(false);
@@ -32,7 +33,10 @@ const createPermanent = () => {
             .then(result => dispatch(timetableFetched(result.data)))
             .catch(() => dispatch(timetableFetchingError()))
     }
-    useEffect(() => checkLogin(), []); 
+    useEffect(() => {
+        checkLogin()
+        checkPermissons()
+    }, []); 
 
     useEffect(() => {
         if (selectedDay !== ''){
@@ -41,10 +45,9 @@ const createPermanent = () => {
     }, [selectedDay])
     
     let timetableList = Object.keys(timetable).map((item, i) => {
-
         return (
             <>
-                <div key={i+1} onClick={() => onOpen(i)} className={styles.timetableItem__wrapper}>
+                <div key={i} onClick={() => onOpen(i)} className={styles.timetableItem__wrapper}>
                     <div className={styles.time__wrapper}>{timetable[item].time}</div>
                     <div className={styles.textItems__wrapper}>
                         <span className={styles.lessionName}>{timetable[item].lessionName}</span>
