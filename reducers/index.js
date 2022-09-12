@@ -3,7 +3,8 @@ const initialState = {
     timetable: {},
     timetableStatus: 'idle', 
     discliplines: '', 
-    discliplinesStatus: 'ídle'
+    discliplinesStatus: 'ídle', 
+    changes: {}
 }
 
 const reducer = (state = initialState, action) => {

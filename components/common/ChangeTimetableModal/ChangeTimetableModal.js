@@ -44,8 +44,6 @@ const ChangeTimetableModal = ({ isVisiable, onClose, lessionNum, fetchTimetable}
             formik.values.subject = ''
             formik.values.teacher = ''
             formik.values.audience = ''
-            
-            
         }
     })  	    
 

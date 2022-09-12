@@ -7,6 +7,7 @@ const parameters = require('../parameters.json')
 import getCurrentDate from "../functions/getCurrentDate";
 import { useSelector, useDispatch } from "react-redux";
 import { timetableFetching, timetableFetched, timetableFetchingError} from '../actions/actions'
+import Layout from "../components/Layout/Layout";
 
 const timetable = () => {
     const { request } = useHttp();
@@ -17,7 +18,7 @@ const timetable = () => {
 
     useEffect(() => {
         dispatch(timetableFetching())
-        let body = {request: 'per', day: 'Monday'} //заменить статичную хуету на getDayString
+        let body = {request: 'per', day: getDayString()} //заменить статичную хуету на getDayString
 
         request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body))
             .then(result => dispatch(timetableFetched(result.data)))
@@ -41,10 +42,9 @@ const timetable = () => {
     })
 
     return (
-        <>
-            <header className={styles.header}>
-                <h1 className={styles.header__title}>Stubtable</h1>
-            </header>
+        <>  
+           {/*  <input type="date"></input> */}
+            <Layout></Layout>
             <main>
                 <h2 className={styles.main__title}>{getCurrentDate()}</h2>
                 <div className={styles.timetable__wrapper}>

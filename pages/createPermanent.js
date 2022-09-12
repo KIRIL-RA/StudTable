@@ -7,6 +7,7 @@ import checkLogin from "../functions/checklogin";
 import ChangeTimetableModal from "../components/common/ChangeTimetableModal/ChangeTimetableModal";
 import useHttp from "../hooks/useHttps";
 import styles from "../styles/pages/createPermanent.module.css"
+import Layout from "../components/Layout/Layout";
 
 const createPermanent = () => {
     const [isVisiable, setIsVisiable] = useState(false);
@@ -59,7 +60,7 @@ const createPermanent = () => {
 
     return (
         <>
-            <h1 className={styles.instedOfLayout}>Stubtable</h1>
+            <Layout></Layout>
             <div>
                 <h3 className={styles.createPermanent__title}>Обновление расписания:</h3>
                 <DaySelector />

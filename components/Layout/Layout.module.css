@@ -1,0 +1,14 @@
+.wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+/* .first{
+    justify-self: start;
+} */
+.logo{
+    font-size: 25px;
+    font-weight: 700;
+}
+/* .third{
+    justify-self: end;
+} */
