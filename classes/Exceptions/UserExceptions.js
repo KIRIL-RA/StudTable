@@ -26,4 +26,11 @@ class UserHasNoPermission extends Error{
     }
 };
 
-module.exports = {UserNotFoundError, UserLoginDataIncorrectError, UserNotLoginedError, UserHasNoPermission};
+class UserAreadyConfirmed extends Error{
+    constructor(message){
+        super(message);
+        this.name = "UserAlreadyConfirmed";
+    }
+};
+
+module.exports = {UserNotFoundError, UserLoginDataIncorrectError, UserNotLoginedError, UserHasNoPermission, UserAreadyConfirmed};

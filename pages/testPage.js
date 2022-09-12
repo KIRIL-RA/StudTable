@@ -22,8 +22,8 @@ const testPage = () => {
 
     const onClickedGetTT = () => {
         let body = {
-            day: "Wednesday",
-            request:"per"
+            day: "20.09.2022",
+            request:"asd"
         };
 
         request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body));
@@ -70,6 +70,14 @@ const testPage = () => {
         request(`${parameters.API_HOST}/getunconfirmedaccounts`, 'POST')
     }
 
+    const onClickedConfirmAccount = () => {
+        let body = {
+            userId: "7779494225911263"
+        };
+
+        request(`${parameters.API_HOST}/confirmaccount`, 'POST', JSON.stringify(body));
+    };
+
     return (
         <div>
             <button onClick={() => onClickedUpdateTTPP()}>Update time table permanent permanent</button>
@@ -79,6 +87,7 @@ const testPage = () => {
             <button onClick={() => onClickedregisryNewUser()}>Registry new user</button>
             <button onClick={() => onClickedGetInfo()}>Get user info</button>
             <button onClick={() => onClickedGetUncofirmedAccounts()}>Get uncofirmed accounts</button>
+            <button onClick={() => onClickedConfirmAccount()}>Confirm account</button>
         </div>
     )
 }

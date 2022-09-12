@@ -114,6 +114,7 @@ class UserWithToken extends User {
         switch (action) {
 
             // Group headman perrmissions
+            case Actions.CONFIRM_ACCOUNT:
             case Actions.GET_UNCONFIRMED_ACCOUNTS:
             case Actions.UPDATE_TIMETABLE:
                 if ((this.userData.accountType === AccountTypes.HEADMAN_GROUP) && this.userData.isConfirmed) return true;

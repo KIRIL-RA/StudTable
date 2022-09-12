@@ -153,6 +153,19 @@ class DBWork {
     }
 
     /**
+     * Confirm account
+     * @param {String} userId
+     */
+     async  ConfirmAccount(userId) {
+        const datataBase = this.mongoClient.db(dbName);
+        const collection = datataBase.collection(usersCollection);
+
+        collection.updateOne({
+            userId: userId
+        }, { $set: { isConfirmed: true } });
+    }
+
+    /**
      * Update timeTable for ALL week
      * @param {String} academyId 
      * @param {String} direction 

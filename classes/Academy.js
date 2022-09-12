@@ -1,4 +1,5 @@
 const DBWork = require("./databaseWork");
+const { UserAreadyConfirmed, UserHasNoPermission } = require("./Exceptions/UserExceptions");
 
 class Academy {
     /**
@@ -99,17 +100,36 @@ class Academy {
         // Sending only not important info
         if (result !== null &&
             result !== undefined)
-        result.forEach(
-            account => {
-                resultFormatted.push({
-                    realInfo: account.realInfo,
-                    userId: account.userId
+            result.forEach(
+                account => {
+                    resultFormatted.push({
+                        realInfo: account.realInfo,
+                        userId: account.userId
+                    }
+                    );
                 }
-                );
-            }
-        );
+            );
 
         return resultFormatted;
+    }
+
+    /**
+     * Confirm account. Available only for group headman
+     * @param {any} userId 
+     * @param {object} groupHeadmanAcademyInfo 
+     */
+    async ConfirmAccount(userId, groupHeadmanAcademyInfo) {
+        const database = this.database;
+        let userInfo = await database.GetUserData({ userId: userId });
+        let userAcademy = userInfo.academy;
+
+        if (userInfo.isConfirmed === true) throw new UserAreadyConfirmed("User already confirmed");
+        if (userAcademy.id !== groupHeadmanAcademyInfo.id ||
+            userAcademy.directionId !== groupHeadmanAcademyInfo.directionId ||
+            userAcademy.group !== groupHeadmanAcademyInfo.group ||
+            userAcademy.course !== groupHeadmanAcademyInfo.course) throw new UserHasNoPermission("User not in your group");
+
+        await database.ConfirmAccount(userId);
     }
 }
 
