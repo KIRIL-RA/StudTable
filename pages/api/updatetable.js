@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         return;
     }
 
-    try {
+    //try {
         // Check is session data is valid
         await Database.Connect();
         let user = new UserWithToken(userId, sessionToken, Database);
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
         }
 
         res.send(ResponseSamples.DefaultResponse("Table updated sucessfully", StatusCodes.OK));
-    }
+    /*}
 
     catch (e) {
         switch (e.name) {
@@ -73,5 +73,5 @@ export default async function handler(req, res) {
                 res.send(ResponseSamples.DefaultResponse(e.message, StatusCodes.OPERATION_FAILED));
                 return;
         }
-    }
+    }*/
 }

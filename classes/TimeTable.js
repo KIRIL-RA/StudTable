@@ -54,8 +54,8 @@ class DayOfWeek{
 
         // Getting topical timeTable
         let timeGrid = await this.GetTimeGrid();
-        let timeTableDays = await this.GetTimeTable();
-        let timeTable = timeTableDays[this.day];
+        let timeTable = await this.GetTimeTable();
+        let timeTableDays = await this.GetTimeTableAllDays();
 
         let lessionsCount = Object.keys(timeGrid).length;
         let newTimeTable = {};
@@ -82,6 +82,17 @@ class DayOfWeek{
 
         timeTableDays[this.day] = newTimeTable;
         await this.database.UpdateTimeTable(this.academyId, this.direction, this.group, this.course, timeTableDays);
+    }
+
+    /**
+     * Get timne table for all days
+     * @returns Timetable for all days 
+     */
+    async GetTimeTableAllDays(){
+        const database = this.database;
+        let result = await database.GetTimeTable(this.academyId, this.direction, this.group, this.course);
+
+        return result.table;
     }
 
     /**

@@ -6,15 +6,28 @@ const testPage = () => {
     const onClickedUpdateTTPP = () => {
         let body = {
             day: "Tuesday",
-            changes:{
-                1:{
-                    lessionName:"Math",
-                    audience:409,
-                    teacher:"Matcheno P. V.",
-                    type:"per"
+            changes: {
+                1: {
+                    lessionName: "Math",
+                    audience: 409,
+                    teacher: "Matcheno P. V.",
+                    type: "per"
+                },
+                2: {
+                    numerator: {
+                        lessionName: "Math1",
+                        audience: 408,
+                        teacher: "Matcheno ",
+                    },
+                    denumerator: {
+                        lessionName: "Math",
+                        audience: 409,
+                        teacher: "Matcheno P. V.",
+                    },
+                    type: "byWeek"
                 }
             },
-            type:"per"
+            type: "per"
         };
 
         request(`${parameters.API_HOST}/updatetable`, 'POST', JSON.stringify(body));
@@ -22,8 +35,8 @@ const testPage = () => {
 
     const onClickedGetTT = () => {
         let body = {
-            day: "20.09.2022",
-            request:"asd"
+            day: "Tuesday",
+            request: "per"
         };
 
         request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body));
@@ -34,22 +47,22 @@ const testPage = () => {
 
         request(`${parameters.API_HOST}/getdisciplinies`, 'POST');
     };
-    
+
     const onClickedCheckLogin = () => {
         request(`${parameters.API_HOST}/checklogin`, 'POST')
     }
 
     const onClickedregisryNewUser = () => {
         let body = {
-            userName:"Anna",
+            userName: "Anna",
             password: "qwerty",
             accountType: "Student",
-            email:"anna@dosbox.com",
-            realInfo:{
-                firstName:"Анна",
-                secondName:"Гончарова"
+            email: "anna@dosbox.com",
+            realInfo: {
+                firstName: "Анна",
+                secondName: "Гончарова"
             },
-            academyInfo:{
+            academyInfo: {
                 id: "cdfasff",
                 directionId: "02.03.01",
                 group: "3.2",
