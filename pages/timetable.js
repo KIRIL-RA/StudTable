@@ -28,9 +28,9 @@ const timetable = () => {
 
         return (
             <div className={styles.timetable__item} key={timetable[item].time}>
-                <div>{timetable[item].time}</div>
-                <div>
-                    <span>{timetable[item].lessionName}</span>
+                <div className={styles.time__wrapper}>{timetable[item].time}</div>
+                <div className={styles.textInfo__wrapper}>
+                    <span className={styles.lessionName}>{timetable[item].lessionName}</span>
                     <br></br>
                     <span>{timetable[item].teacher}</span>
                 </div>
