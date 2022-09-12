@@ -6,6 +6,7 @@ import { timetableFetching, timetableFetched, timetableFetchingError, setSelecte
 import checkLogin from "../functions/checklogin";
 import ChangeTimetableModal from "../components/common/ChangeTimetableModal/ChangeTimetableModal";
 import useHttp from "../hooks/useHttps";
+import styles from "../styles/pages/createPermanent.module.css"
 
 const createPermanent = () => {
     const [isVisiable, setIsVisiable] = useState(false);
@@ -42,26 +43,25 @@ const createPermanent = () => {
 
         return (
             <>
-                <div key={i+1} onClick={() => onOpen(i)}>
-                    <div>{timetable[item].time}</div>
-                    <div>
-                        <span>{timetable[item].lessionName}</span>
+                <div key={i+1} onClick={() => onOpen(i)} className={styles.timetableItem__wrapper}>
+                    <div className={styles.time__wrapper}>{timetable[item].time}</div>
+                    <div className={styles.textItems__wrapper}>
+                        <span className={styles.lessionName}>{timetable[item].lessionName}</span>
                         <br></br>
                         <span>{timetable[item].teacher}</span>
                     </div>
                     <div>{timetable[item].audience}</div>
                     {timetable[item].type === null ? <p></p> : null}
                 </div>
-                <br></br>
             </>
         )
     })
 
     return (
         <>
-            <h1>Stubtable</h1>
+            <h1 className={styles.instedOfLayout}>Stubtable</h1>
             <div>
-                <h3>Обновление расписания:</h3>
+                <h3 className={styles.createPermanent__title}>Обновление расписания:</h3>
                 <DaySelector />
                 {timetableList}
                 <ChangeTimetableModal isVisiable={isVisiable} onClose = {onClose} lessionNum={lessionNum} fetchTimetable={fetchTimetable}></ChangeTimetableModal>

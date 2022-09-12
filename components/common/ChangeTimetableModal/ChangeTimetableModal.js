@@ -6,6 +6,7 @@ import useHttp from "../../../hooks/useHttps";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 const parameters = require('../../../parameters.json')
+const tableTypes = require('../../../pages/static/TableTypes.json')
 import { discliplinesFetching, discliplinesFetched, discliplinesFetchingError, timetableFetching, timetableFetched, timetableFetchingError } from '../../../actions/actions'
 
 const ChangeTimetableModal = ({ isVisiable, onClose, lessionNum, fetchTimetable}) => {
@@ -27,14 +28,14 @@ const ChangeTimetableModal = ({ isVisiable, onClose, lessionNum, fetchTimetable}
         }), 
         onSubmit: values => {
             let body = {day: selectedDay, 
-                type: 'per', 
+                type: tableTypes.PERMANENT, 
                 changes: {}
             }
             body.changes[lessionNum] = {
                 audience: values.audience,
                 lessionName: values.subject, 
                 teacher: values.teacher,
-                type: 'per'
+                type: tableTypes.PERMANENT
             }
 
             request(`${parameters.API_HOST}/updatetable`, 'POST', JSON.stringify(body))
