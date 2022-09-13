@@ -1,6 +1,6 @@
 const initialState = {
     selectedDay: '', 
-    timetable: {},
+    timetable: '',
     timetableStatus: 'idle', 
     discliplines: '', 
     discliplinesStatus: 'ídle',

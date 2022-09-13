@@ -8,13 +8,14 @@ import getCurrentDate from "../functions/getCurrentDate";
 import { useSelector, useDispatch } from "react-redux";
 import { timetableFetching, timetableFetched, timetableFetchingError} from '../actions/actions'
 import Layout from "../components/Layout/Layout";
+import Spinner from "../components/major/Spinner/Spinner";
 
 const timetable = () => {
     const { request } = useHttp();
     const dispatch = useDispatch();
     useEffect(() => checkLogin(), []); 
 
-    const {timetable} = useSelector(state => state.reducer)
+    const {timetable, timetableStatus} = useSelector(state => state.reducer)
 
     useEffect(() => {
         dispatch(timetableFetching())
@@ -26,7 +27,6 @@ const timetable = () => {
     }, [/* selectedDay */])
 
     let timetableList = Object.keys(timetable).map(item => {
-
         return (
             <div className={styles.timetable__item} key={timetable[item].time}>
                 <div className={styles.time__wrapper}>{timetable[item].time}</div>
@@ -39,7 +39,16 @@ const timetable = () => {
                 {timetable[item].type === null ? <p></p> : null}
             </div>
         )
-    })
+    }) 
+
+    if(timetableStatus === 'loading'){
+        return (
+            <>
+                <Layout></Layout>
+                <Spinner></Spinner>
+            </>
+        )
+    }
 
     return (
         <>  

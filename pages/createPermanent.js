@@ -9,11 +9,12 @@ import useHttp from "../hooks/useHttps";
 import styles from "../styles/pages/createPermanent.module.css"
 import Layout from "../components/Layout/Layout";
 import checkPermissons from "../functions/checkPermissons"
+import Spinner from "../components/major/Spinner/Spinner";
 
 const createPermanent = () => {
     const [isVisiable, setIsVisiable] = useState(false);
     const [lessionNum, setLessionNum] = useState();
-    const {selectedDay, timetable} = useSelector(state => state.reducer);
+    const {selectedDay, timetable, timetableStatus} = useSelector(state => state.reducer);
     const dispatch = useDispatch();
     const onOpen = (i) => {
         setIsVisiable(true)
@@ -60,6 +61,17 @@ const createPermanent = () => {
             </>
         )
     })
+
+    if(timetableStatus === 'loading'){
+        return (
+            <>
+                <Layout></Layout>
+                <h3 className={styles.createPermanent__title}>Обновление расписания:</h3>
+                <DaySelector />
+                <Spinner></Spinner>
+            </>
+        )
+    }
 
     return (
         <>

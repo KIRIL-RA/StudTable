@@ -2,13 +2,14 @@
     display: flex;
     justify-content: space-between;
 }
-/* .first{
-    justify-self: start;
-} */
+.container{
+    max-width: 120px;
+    align-items: center;
+}
+.wrapper:first-child{
+    justify-self: center;
+}
 .logo{
     font-size: 25px;
     font-weight: 700;
 }
-/* .third{
-    justify-self: end;
-} */

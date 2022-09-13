@@ -2,13 +2,14 @@ import Link from "next/link"
 import Image from "next/image"
 
 import styles from "./Layout.module.css"
-import image from "../../images/toActionPage.svg"
+import image1 from "../../images/toActionPage.png"
+import image2 from "../../images/profile.png"
 const Layout = () => {
     return(
         <div className={styles.wrapper}>
-            <Link href="/actions"><a><Image className={styles.first} src={image} width="30" height='30'/></a></Link>
+            <Link href="/actions"><a><Image className={styles.first} src={image1} width="30" height='30'/></a></Link>
             <Link href="/timetable"><span className={styles.logo}>Stubtable</span></Link>
-            <Link href="/profile"><span className={styles.third}>Кирилл</span></Link>
+            <Link href="/profile"><a><Image className={styles.first} src={image2} width="30" height='30'/></a></Link>
         </div>
     )
 }
