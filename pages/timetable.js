@@ -26,7 +26,7 @@ const timetable = () => {
             .catch(() => dispatch(timetableFetchingError()))
     }, [/* selectedDay */])
 
-    let timetableList = Object.keys(timetable).map(item => {
+    let timetableList = Object.keys(timetable)?.map(item => {
         return (
             <div className={styles.timetable__item} key={timetable[item].time}>
                 <div className={styles.time__wrapper}>{timetable[item].time}</div>
