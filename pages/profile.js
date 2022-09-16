@@ -35,7 +35,6 @@ const profile = () => {
         <> 
             <Layout></Layout>
             <div className={styles.wrapper}>
-                <p>{user.userName}</p>
                 {user.accountType === "GroupHeadman" ? <p>Роль: староста</p> : <p>Роль: ученик</p>}
                 {<p>Факультет: {user.academy?.faculty}</p>}
                 {<p>Курс: {user.academy?.course}</p>}

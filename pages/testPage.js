@@ -5,7 +5,7 @@ const testPage = () => {
 
     const onClickedUpdateTTPP = () => {
         let body = {
-            day: "Tuesday",
+            day: "Friday",
             changes: {
                 1: {
                     lessionName: "Math",

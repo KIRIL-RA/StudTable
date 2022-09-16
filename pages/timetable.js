@@ -1,6 +1,6 @@
 import styles from "../styles/pages/timetable.module.css"
 import checkLogin from "../functions/checklogin";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import getDayString from '../functions/getDayString'
 import useHttp from "../hooks/useHttps";
 const parameters = require('../parameters.json')
@@ -14,6 +14,7 @@ const timetable = () => {
     const { request } = useHttp();
     const dispatch = useDispatch();
     useEffect(() => checkLogin(), []); 
+    const [typeOfWeek, setTypeOfWeek] = useState('numerator');
 
     const {timetable, timetableStatus} = useSelector(state => state.reducer)
 
@@ -27,6 +28,21 @@ const timetable = () => {
     }, [/* selectedDay */])
 
     let timetableList = Object.keys(timetable)?.map(item => {
+        if (timetable[item].type === "byWeek"){
+            return (
+                <div className={styles.timetable__item} key={timetable[item].time}>
+                    <div className={styles.time__wrapper}>{timetable[item].time}</div>
+                    <div className={styles.textInfo__wrapper}>
+                        {typeOfWeek === 'numerator' ? <span>Числ.</span> : <span>Знам.</span>}
+                        <span className={styles.lessionName}>{timetable[item][typeOfWeek].lessionName}</span>
+                        <br></br>
+                        <span>{timetable[item][typeOfWeek].teacher}</span>
+                    </div>
+                    <div>{timetable[item][typeOfWeek].audience}</div>
+                    {timetable[item].type === null ? <p></p> : null}
+                </div>
+            )
+        }
         return (
             <div className={styles.timetable__item} key={timetable[item].time}>
                 <div className={styles.time__wrapper}>{timetable[item].time}</div>
@@ -39,6 +55,7 @@ const timetable = () => {
                 {timetable[item].type === null ? <p></p> : null}
             </div>
         )
+        
     }) 
 
     if(timetableStatus === 'loading'){
