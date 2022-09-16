@@ -95,6 +95,16 @@ const testPage = () => {
         request(`${parameters.API_HOST}/getspecificpermissions`, 'POST')
     }
 
+    const onClickGetAcademies = () => {
+        let body = {
+            request: "gd",
+            academyId: "cdfasff",
+            faculty: "Mathematics"
+        };
+
+        request(`${parameters.API_HOST}/getacademyinfo`, 'POST', JSON.stringify(body))
+    }
+
     return (
         <div>
             <button onClick={() => onClickedUpdateTTPP()}>Update time table permanent permanent</button>
@@ -105,7 +115,8 @@ const testPage = () => {
             <button onClick={() => onClickedGetInfo()}>Get user info</button>
             <button onClick={() => onClickedGetUncofirmedAccounts()}>Get uncofirmed accounts</button>
             <button onClick={() => onClickedConfirmAccount()}>Confirm account</button>
-            <button onClick={() => onClickGetSpecialPermicions()}>JKSFAKIJSFHAKJSFHj</button>
+            <button onClick={() => onClickGetSpecialPermicions()}>Get special permissions</button>
+            <button onClick={() => onClickGetAcademies()}>Get academies</button>
         </div>
     )
 }

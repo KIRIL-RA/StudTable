@@ -1,4 +1,4 @@
-const { UserLoginDataIncorrectError, UserNotFoundError } = require("../../classes/Exceptions/UserExceptions");
+const { UserLoginDataIncorrectError, UserNotFoundError, UserNameAlreadyExist } = require("../../classes/Exceptions/UserExceptions");
 const ResponseSamples = require("../../classes/ResponseSamples");
 const StatusCodes = require("../static/StatusCodes.json");
 const AccountTypes = require("../static/AccountTypes.json");
@@ -37,16 +37,12 @@ export default async function handler(req, res) {
     // Catching errors
     catch (e) {
         switch (e.name) {
-            case new UserNotFoundError().name:
-                res.send(ResponseSamples.DefaultResponse("Incorrect user login data", StatusCodes.USER_LOGIN_ERROR));
-                return
-
-            case new UserLoginDataIncorrectError().name:
-                res.send(ResponseSamples.DefaultResponse("Incorrect user login data", StatusCodes.USER_LOGIN_ERROR));
+            case new UserNameAlreadyExist().name:
+                res.send(ResponseSamples.DefaultResponse("User name already exist", StatusCodes.USERNAME_ALREADY_EXIST));
                 return;
 
             default:
-                res.send(ResponseSamples.DefaultResponse("Error check login data", StatusCodes.ERROR_CHECK_USER_LOGIN_DATA));
+                res.send(ResponseSamples.DefaultResponse("Error registry user", StatusCodes.ERROR_CHECK_USER_LOGIN_DATA));
                 return;
         }
     }

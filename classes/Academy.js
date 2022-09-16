@@ -11,6 +11,7 @@ class Academy {
         this.database = database;
         this.id = id;
         this.data;
+        this.isInitialized = false;
     }
 
     /**
@@ -20,6 +21,7 @@ class Academy {
         let database = this.database;
 
         this.data = await database.GetUniversityInfo(this.id);
+        this.isInitialized = true;
     }
 
     /**
@@ -28,6 +30,8 @@ class Academy {
      * @returns 
      */
     GetFaculties(decrease = false) {
+        if(!this.isInitialized) return;
+
         let faculties = this.data.faculties;
 
         if (decrease) {
@@ -48,12 +52,33 @@ class Academy {
     }
 
     /**
+     * Forming list contains light info about academies
+     */
+    async GetAcademies(){
+        const database = this.database;
+        let result = await database.GetAcademies();
+        let academiesList = [];
+        
+        // Formatting raw data
+        result.forEach(academy =>{
+            academiesList.push({
+                name: academy.name,
+                id: academy.id
+            });
+        });
+
+        return academiesList;
+    }
+
+    /**
      * Get directions of faculty
      * @param {String} faculty 
      * @param {Boolean} decrease 
      * @returns 
      */
     GetDirections(faculty, decrease = false) {
+        if(!this.isInitialized) return;
+        
         let faculties = this.GetFaculties();
         let directions = faculties[faculty].directions;
 
@@ -80,6 +105,8 @@ class Academy {
      * @param {String} faculty 
      */
     GetDisciplinies(direction, faculty) {
+        if(!this.isInitialized) return;
+
         let directions = this.GetDirections(faculty);
         let disciplinies = directions[direction].disciplinies;
 
@@ -94,6 +121,8 @@ class Academy {
      * @returns 
      */
     async GetUnconfirmedAccounts(direction, course, group, accountType) {
+        if(!this.isInitialized) return;
+
         let result = await this.database.GetUnconfirmedAccounts(this.id, direction, course, group, accountType);
         let resultFormatted = [];
 
@@ -119,6 +148,8 @@ class Academy {
      * @param {object} groupHeadmanAcademyInfo 
      */
     async ConfirmAccount(userId, groupHeadmanAcademyInfo) {
+        if(!this.isInitialized) return;
+
         const database = this.database;
         let userInfo = await database.GetUserData({ userId: userId });
         let userAcademy = userInfo.academy;

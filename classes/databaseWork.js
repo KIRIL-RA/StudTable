@@ -185,6 +185,17 @@ class DBWork {
         }, { $set: { table: newTimeTable } });
     }
 
+    /**
+     * Get raw academies info
+     */
+    async GetAcademies(){
+        const datataBase = this.mongoClient.db(dbName);
+        const collection = datataBase.collection(academiesCollection);
+
+        let result = collection.find({}).toArray();
+        return result;
+    }
+
     isConnected() {
         return !!this.mongoClient && !!this.mongoClient.topology && this.mongoClient.topology.isConnected()
     }
