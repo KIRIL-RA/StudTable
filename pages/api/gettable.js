@@ -72,6 +72,7 @@ export default async function handler(req, res) {
                 break;
         }
 
+        timeTable.weekType = "numerator";
         res.setHeader('Accept-Encoding','gzip, deflate, br');
         res.setHeader('Accept-Language','ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7');
         res.setHeader('Content-Type', 'application/json');
