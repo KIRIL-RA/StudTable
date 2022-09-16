@@ -33,4 +33,11 @@ class UserAreadyConfirmed extends Error{
     }
 };
 
-module.exports = {UserNotFoundError, UserLoginDataIncorrectError, UserNotLoginedError, UserHasNoPermission, UserAreadyConfirmed};
+class UserNameAlreadyExist extends Error{
+    constructor(message){
+        super(message);
+        this.name = "UserNameAlreadyExists";
+    }
+}
+
+module.exports = {UserNotFoundError, UserLoginDataIncorrectError, UserNotLoginedError, UserHasNoPermission, UserAreadyConfirmed, UserNameAlreadyExist};

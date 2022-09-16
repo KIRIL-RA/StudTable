@@ -1,5 +1,5 @@
 const { NotAllParametersWereRecievedError } = require("./Exceptions/CommonExceptions");
-const { UserLoginDataIncorrectError, UserNotFoundError, UserNotLoginedError, UserHasNoDevicesError } = require("./Exceptions/UserExceptions");
+const { UserLoginDataIncorrectError, UserNotFoundError, UserNotLoginedError, UserHasNoDevicesError, UserNameAlreadyExist } = require("./Exceptions/UserExceptions");
 const AccountTypes = require("../pages/static/AccountTypes.json");
 const SpecificPermissions = require("../pages/static/SpecificPermissions.json");
 const Actions = require("../pages/static/Actions.json");
@@ -228,6 +228,17 @@ class UserWithPassword extends User {
     }
 
     /**
+     * Check is username is free
+     */
+    async CheckUserName(){
+        let userName = this.userData.userName;
+        const database = this.dbWork;
+
+        let result = await database.GetUserData({ userName: userName });
+        if(result !== undefined || result !== null) throw new UserNameAlreadyExist("User name already exist");
+    }
+
+    /**
      * Registry new user
      * @param {any} accountType
      * @param {string} academyInfo 
@@ -236,6 +247,7 @@ class UserWithPassword extends User {
 
         // Validate recieved data
         this.ValidateRegistryData(accountType, academyInfo, realInfo);
+        await this.CheckUserName();
 
         let date_ob = new Date();
 

@@ -2,5 +2,8 @@
     "UPDATE_TIMETABLE":"updtt", 
     "GET_TIMETABLE":"gtt",
     "GET_UNCONFIRMED_ACCOUNTS":"gua",
-    "CONFIRM_ACCOUNT":"ca"
+    "CONFIRM_ACCOUNT":"ca",
+    "GET_ACADEMIES" :"ga",
+    "GET_FACULTIES" :"gf",
+    "GET_DIRECTIONS":"gd"
 }
