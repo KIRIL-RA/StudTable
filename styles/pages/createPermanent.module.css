@@ -22,3 +22,12 @@
 .time__wrapper{
     width: 40px;
 }
+.changedTimetableItem__wrapper{
+    display: flex;
+    border-bottom: 1px solid black;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+    min-height: 60px;
+    color: gray;
+}
