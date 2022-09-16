@@ -16,9 +16,6 @@ const tableTypes = require('../pages/static/TableTypes.json')
 
 
 const createPermanent = () => {
-
-
-
     const [isVisiable, setIsVisiable] = useState(false);
     const [lessionNum, setLessionNum] = useState();
     const {selectedDay, timetable, timetableStatus} = useSelector(state => state.reducer);
@@ -31,7 +28,7 @@ const createPermanent = () => {
         initialValues: {
             subject: '', 
             teacher: '',
-            audience: '' 
+            audience: ''
         },
         validationSchema: Yup.object({
             subject: Yup.string().required('Выберите предмет!'),
@@ -58,9 +55,65 @@ const createPermanent = () => {
 
             onClose();
         }
-       
+    })  	
 
-    })  	 
+    const validate = values => {
+        const errors = {}
+        if (!values.numSubject && !values.denumSubject) errors.subject = 'Выберите хотя бы один предмет!'
+
+        if (!values.numTeacher && values.numSubject) errors.numTeacher = 'Выберите преподователя для данного предмета!'
+
+        if (!values.denumTeacher && values.denumSubject) errors.denumTeacher = 'Выберите преподователя для данного предмета!'
+
+        if (!values.numAudience && values.numSubject) errors.numAudience = 'Введите аудиторию!'
+
+        if (!values.denumAudience && values.denumSubject) errors.denumAudience = 'Выберите аудиторию!'
+
+        return errors;
+    }
+
+    const specialFormik = useFormik({
+        initialValues: {
+            numSubject: '',
+            numTeacher: '',
+            numAudience: '', 
+            denumSubject: '',
+            denumTeacher: '',
+            denumAudience: ''
+        },
+        validate,
+        onSubmit: values => {
+            let changeObj = {};
+            let type1, type2; 
+            {values.numSubject && values.numTeacher && values.numAudience ? type1 = tableTypes.BY_WEEK : type1 = null}
+            {values.denumSubject && values.denumTeacher && values.denumAudience ? type2 = tableTypes.BY_WEEK : type2 = null} 
+
+            changeObj[lessionNum] = {
+                numerator: {
+                    lessionName: values.numSubject, 
+                    teacher: values.numTeacher,
+                    audience: values.numAudience,
+                    type: type1
+                },
+                denumerator: {
+                    lessionName: values.denumSubject, 
+                    teacher: values.denumTeacher,
+                    audience: values.denumAudience,
+                    type: type2
+                },
+                type: 'byWeek'
+            }
+
+            setCanges(changes => ({
+                ...changes, 
+                ...changeObj
+            }))
+
+            specialFormik.resetForm() 
+
+            onClose();
+        }
+    })
 
 
     const onClear = () => {
@@ -77,6 +130,19 @@ const createPermanent = () => {
                         setCanges({});
                         fetchTimetable();
                 })/* .catch(() => ) */
+    }
+    const onDelete = () => {
+        let deleteObj = {};
+        deleteObj[lessionNum] = {
+            type: null 
+        }
+
+        setCanges(changes => ({
+            ...changes, 
+            ...deleteObj
+        }))
+
+        onClose();
     }
 
     const onOpen = (i) => {
@@ -113,6 +179,24 @@ const createPermanent = () => {
     let timetableList = Object.keys(timetable).map((item, i) => {
 
         if(changes.hasOwnProperty(item)){
+            if (changes[item].type === "byWeek"){
+                console.log(changes)
+                return (
+                    <div onClick={() => onOpen(i)} className={styles.SpecialTimetableItem__wrapper} key={timetable[item].time}>
+                        <div className={styles.time__wrapper}>{timetable[item].time}</div>
+                        <div className={styles.textInfo__wrapper}>
+                            <span className={styles.lessionName}>{changes[item].numerator?.lessionName}</span>
+                            <span>{changes[item].numerator?.teacher}</span>
+                            <span>{changes[item].numerator?.audience}</span>
+                            <br></br>
+                            <span className={styles.lessionName}>{changes[item].denumerator?.lessionName}</span>
+                            <span>{changes[item].denumerator?.teacher}</span> 
+                            <span>{changes[item].denumerator?.audience}</span>        
+                        </div>
+                    </div>
+                )
+            }
+
             return(
                 <div key={i} onClick={() => onOpen(i)} className={styles.changedTimetableItem__wrapper}>
                     <div className={styles.time__wrapper}>{timetable[item].time}</div>
@@ -123,6 +207,25 @@ const createPermanent = () => {
                     </div>
                     <div>{changes[item].audience}</div>
                     {changes[item].type === null ? <p></p> : null}
+                </div>
+            )
+        }
+        
+        if (timetable[item].type === "byWeek"){
+            return (
+                <div onClick={() => onOpen(i)} className={styles.SpecialTimetableItem__wrapper} key={timetable[item].time}>
+                    <div className={styles.time__wrapper}>{timetable[item].time}</div>
+                    <div className={styles.textInfo__wrapper}>
+                        <span className={styles.lessionName}>{timetable[item].numerator.lessionName}</span>
+                        <span>{timetable[item].numerator.teacher}</span>
+                        <span>{timetable[item].numerator.audience}</span>
+                        <br></br>
+                        <span className={styles.lessionName}>{timetable[item].denumerator.lessionName}</span>
+                        {/* {timetable[item].numeratoe.type === null ? <br></br> : null } */}
+                        <span>{timetable[item].denumerator.teacher}</span> 
+                        <span>{timetable[item].denumerator.audience}</span>        
+                        
+                    </div>
                 </div>
             )
         }
@@ -159,7 +262,17 @@ const createPermanent = () => {
                 <h3 className={styles.createPermanent__title}>Обновление расписания:</h3>
                 <DaySelector />
                 {timetableList}
-                <ChangeTimetableModal setModalType={setModalType} modalType={modalType} formik={formik} isVisiable={isVisiable} onClose = {onClose} lessionNum={lessionNum} fetchTimetable={fetchTimetable}></ChangeTimetableModal>
+                <ChangeTimetableModal 
+                    formik={formik} 
+                    specialFormik={specialFormik}
+
+                    modalType={modalType} 
+                    setModalType={setModalType} 
+
+                    isVisiable={isVisiable} 
+                    onClose = {onClose} 
+                    lessionNum={lessionNum} 
+                    onDelete={onDelete}/>
                 <div>
                     <button onClick={onSend}>Сохранить</button>
                     <button onClick={onClear}>Отмнеить</button>
