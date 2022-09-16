@@ -121,7 +121,7 @@ class UserWithToken extends User {
                 else return false;
 
             case Actions.GET_TIMETABLE:
-                if(this.userData.isConfirmed) return true;
+                if (this.userData.isConfirmed) return true;
                 else return false;
 
             default:
@@ -230,12 +230,19 @@ class UserWithPassword extends User {
     /**
      * Check is username is free
      */
-    async CheckUserName(){
+    async CheckUserName() {
         let userName = this.userData.userName;
         const database = this.dbWork;
+        let result;
 
-        let result = await database.GetUserData({ userName: userName });
-        if(result !== undefined || result !== null) throw new UserNameAlreadyExist("User name already exist");
+        try {
+            result = await database.GetUserData({ userName: userName });
+        }
+        catch{
+            result = undefined;
+        }
+
+        if (result != undefined || result != null) throw new UserNameAlreadyExist("User name already exist");
     }
 
     /**

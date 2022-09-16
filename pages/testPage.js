@@ -54,7 +54,7 @@ const testPage = () => {
 
     const onClickedregisryNewUser = () => {
         let body = {
-            userName: "Anna",
+            userName: "An",
             password: "qwerty",
             accountType: "Student",
             email: "anna@dosbox.com",
