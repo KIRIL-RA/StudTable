@@ -69,7 +69,6 @@ const timetable = () => {
 
     return (
         <>  
-           {/*  <input type="date"></input> */}
             <Layout></Layout>
             <main>
                 <h2 className={styles.main__title}>{getCurrentDate()}</h2>
