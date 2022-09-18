@@ -15,6 +15,10 @@ const timetable = () => {
     const dispatch = useDispatch();
     useEffect(() => checkLogin(), []); 
     const [typeOfWeek, setTypeOfWeek] = useState('numerator');
+    const [isVisiable, setIsVisiable] = useState(false);
+
+    const onOpen = () => setIsVisiable(true);
+    const onClose = () => setIsVisiable(false);
 
     const {timetable, timetableStatus} = useSelector(state => state.reducer)
 
@@ -30,33 +34,35 @@ const timetable = () => {
     let timetableList;
     if (timetable){
         timetableList = Object.keys(timetable).map(item => {
-            if (timetable[item].type === "byWeek"){
+            if (item !== 'weekType'){
+                if (timetable[item].type === "byWeek"){
+                    return (
+                        <div className={styles.timetable__item} key={timetable[item].time}>
+                            <div className={styles.time__wrapper}>{timetable[item].time}</div>
+                            <div className={styles.textInfo__wrapper}>
+                                {typeOfWeek === 'numerator' ? <span>Числ.</span> : <span>Знам.</span>}
+                                <span className={styles.lessionName}>{timetable[item][typeOfWeek].lessionName}</span>
+                                <br></br>
+                                <span>{timetable[item][typeOfWeek].teacher}</span>
+                            </div>
+                            <div>{timetable[item][typeOfWeek].audience}</div>
+                            {timetable[item].type === null ? <p></p> : null}
+                        </div>
+                    )
+                }
                 return (
                     <div className={styles.timetable__item} key={timetable[item].time}>
                         <div className={styles.time__wrapper}>{timetable[item].time}</div>
                         <div className={styles.textInfo__wrapper}>
-                            {typeOfWeek === 'numerator' ? <span>Числ.</span> : <span>Знам.</span>}
-                            <span className={styles.lessionName}>{timetable[item][typeOfWeek].lessionName}</span>
+                            <span className={styles.lessionName}>{timetable[item].lessionName}</span>
                             <br></br>
-                            <span>{timetable[item][typeOfWeek].teacher}</span>
+                            <span>{timetable[item].teacher}</span>
                         </div>
-                        <div>{timetable[item][typeOfWeek].audience}</div>
+                        <div>{timetable[item].audience}</div>
                         {timetable[item].type === null ? <p></p> : null}
                     </div>
                 )
             }
-            return (
-                <div className={styles.timetable__item} key={timetable[item].time}>
-                    <div className={styles.time__wrapper}>{timetable[item].time}</div>
-                    <div className={styles.textInfo__wrapper}>
-                        <span className={styles.lessionName}>{timetable[item].lessionName}</span>
-                        <br></br>
-                        <span>{timetable[item].teacher}</span>
-                    </div>
-                    <div>{timetable[item].audience}</div>
-                    {timetable[item].type === null ? <p></p> : null}
-                </div>
-            )
         }) 
     }
 
@@ -69,17 +75,32 @@ const timetable = () => {
         )
     }
 
-    return (
-        <>  
-            <Layout></Layout>
-            <main>
-                <h2 className={styles.main__title}>{getCurrentDate()}</h2>
-                <div className={styles.timetable__wrapper}>
-                    {timetableList}
-                </div>
-            </main>
-        </>
-    )
+    if(timetableStatus === 'idle'){
+        return (
+            <>  
+                <Layout></Layout>
+                <main>
+                    <h2 className={styles.main__title} onClick={onOpen}>{getCurrentDate()}</h2>
+                    <div className={styles.timetable__wrapper}>
+                        {timetableList}
+                    </div>
+                    {!isVisiable ? null : (
+                        <div className={styles.Modal}>
+                            <div className={styles.Modal__dialog}>
+                                <div className={styles.Modal__header}>
+                                    <span className={styles.Modal__title}>Выберите дату</span>
+                                    <span className={styles.Modal__close} onClick={onClose}>&times;</span>
+                                </div>
+                                <div className={styles.Modal__content}>
+                                    <input type="date"></input>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </main>
+            </>
+        )
+    }
 }
 
 export default timetable;

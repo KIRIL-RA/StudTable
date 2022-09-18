@@ -15,7 +15,7 @@
 }
 .Modal__dialog {
     width: 100%;
-    max-width: 260px;
+    max-width: 70%;
     background: white;
     position: relative;
     margin: 0 20px;
@@ -47,4 +47,26 @@
 }
 .Modal__title{
     text-align: center;
+}
+.functionalButton{
+    width: 100%;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    line-height: 3em;
+    margin: 1vh 0 1vh 0;
+    color: black;
+    font-size: 14px;
+}
+.select{
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    width: 100%;
+    line-height: 3em;
+    margin: 1vh 0 1vh 0;
+    color: black;
+    font-size: 14px;
+}
+.input{
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    width: 100%;
+    margin: 1vh 0 1vh 0;
+    font-size: 16px;
 }

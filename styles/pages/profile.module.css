@@ -1,3 +1,14 @@
 .wrapper{
     padding: 1em;
 }
+.green{ 
+    color: green;
+}
+.red{ 
+    color: red; 
+}
+.logout{
+    text-decoration: underline;
+    color: red; 
+    font-weight: 600;
+}

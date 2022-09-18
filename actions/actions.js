@@ -61,3 +61,23 @@ export const userFetchingError = () => {
         type: 'USER_FETCHING_ERROR'
     }
 }
+
+export const unconfirmedFetching = () => {
+    return {
+        type: 'UNCONFIRMED_FETCHING'
+    }
+}
+
+export const unconfirmedFetched = (array) => {
+    return { 
+        type: 'UNCONFIRMED_FETCHED',
+        payload: array
+    }
+}
+
+export const unconfirmedFetchingError = () => {
+    return {
+        type: 'UNCONFIRMED_FETCHING_ERROR'
+    }
+}
+

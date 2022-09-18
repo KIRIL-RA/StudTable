@@ -54,13 +54,13 @@ const testPage = () => {
 
     const onClickedregisryNewUser = () => {
         let body = {
-            userName: "An",
+            userName: "Popov 2",
             password: "qwerty",
             accountType: "Student",
             email: "anna@dosbox.com",
             realInfo: {
-                firstName: "Анна",
-                secondName: "Гончарова"
+                firstName: "Арсений",
+                secondName: "Попов"
             },
             academyInfo: {
                 id: "cdfasff",
@@ -68,7 +68,7 @@ const testPage = () => {
                 group: "3.2",
                 faculty: "Mathematics",
                 course: "1",
-                studentIdNumber: "12112"
+                studentIdNumber: "707"
             }
         };
 
@@ -85,7 +85,8 @@ const testPage = () => {
 
     const onClickedConfirmAccount = () => {
         let body = {
-            userId: "7779494225911263"
+            userId: "7779494225911263", 
+            userId: "707"
         };
 
         request(`${parameters.API_HOST}/confirmaccount`, 'POST', JSON.stringify(body));

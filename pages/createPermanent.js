@@ -175,101 +175,103 @@ const createPermanent = () => {
             fetchTimetable()
         }
     }, [selectedDay])
-    
+
     let timetableList = Object.keys(timetable).map((item, i) => {
+        if (item !== 'weekType'){
+            if(changes.hasOwnProperty(item)){
 
-        if(changes.hasOwnProperty(item)){
-
-            //Render from Changes for Special
-            if (changes[item].type === "byWeek"){
-                console.log(changes)
+                //Render from Changes for Special
+                if (changes[item].type === "byWeek"){
+                    console.log(changes)
+                    return (
+                        <div onClick={() => onOpen(i)} className={styles.changedSpecialTimetableItem__wrapper} key={timetable[item].time}>
+                            <div className={styles.time__wrapper}>{timetable[item].time}</div>
+                            <div className={styles.textInfo__wrapper}>
+                                <div className={styles.specialTextItems__wrapper}>
+                                    <span className={styles.lessionName}>{changes[item].numerator?.lessionName}</span>
+                                    <br></br>
+                                    <span>{changes[item].numerator?.teacher}</span>
+                                </div>
+                                <div className={styles.line}></div>
+                                <div className={styles.specialTextItems__wrapper}>
+                                    <span className={styles.lessionName}>{changes[item].denumerator?.lessionName}</span>
+                                    <br></br>
+                                    <span>{changes[item].denumerator?.teacher}</span>
+                                </div>     
+                            </div>
+    
+                            <div>
+                                <span>{changes[item].numerator?.audience}</span> 
+                                <br></br>
+                                <br></br>
+                                <br></br>
+                                <span>{changes[item].denumerator?.audience}</span>   
+                            </div>
+                        </div>
+                    )
+                }
+    
+                //Render from Changes
+                return(
+                    <div key={i} onClick={() => onOpen(i)} className={styles.changedTimetableItem__wrapper}>
+                        <div className={styles.time__wrapper}>{timetable[item].time}</div>
+                        <div className={styles.textItems__wrapper}>
+                            <span className={styles.lessionName}>{changes[item].lessionName}</span>
+                            <br></br>
+                            <span>{changes[item].teacher}</span>
+                        </div>
+                        <div>{changes[item].audience}</div>
+                        {changes[item].type === null ? <p></p> : null}
+                    </div>
+                )
+            }
+            
+            //Render from timetable for special
+            if (timetable[item].type === "byWeek"){
                 return (
-                    <div onClick={() => onOpen(i)} className={styles.SpecialTimetableItem__wrapper} key={timetable[item].time}>
+                    <div onClick={() => onOpen(i)} className={styles.specialTimetableItem__wrapper} key={timetable[item].time}>
                         <div className={styles.time__wrapper}>{timetable[item].time}</div>
                         <div className={styles.textInfo__wrapper}>
-                            <div className={styles.first}>
-                                <span className={styles.lessionName}>{changes[item].numerator?.lessionName}</span>
+                            <div className={styles.specialTextItems__wrapper}>
+                                <span className={styles.lessionName}>{timetable[item].numerator.lessionName}</span>
                                 <br></br>
-                                <span>{changes[item].numerator?.teacher}</span>
+                                <span>{timetable[item].numerator.teacher}</span>
                             </div>
                             <div className={styles.line}></div>
-                            <div className={styles.first}>
-                                <span className={styles.lessionName}>{changes[item].denumerator?.lessionName}</span>
+                            <div className={styles.specialTextItems__wrapper}>
+                                <span className={styles.lessionName}>{timetable[item].denumerator.lessionName}</span>
                                 <br></br>
-                                <span>{changes[item].denumerator?.teacher}</span>
-                            </div>     
+                                <span>{timetable[item].denumerator.teacher}</span> 
+                            </div>
+                              
                         </div>
-
                         <div>
-                            <span>{changes[item].numerator?.audience}</span> 
+                            <span>{timetable[item].numerator.audience}</span>
                             <br></br>
                             <br></br>
                             <br></br>
-                            <span>{changes[item].denumerator?.audience}</span>   
+                            <span>{timetable[item].denumerator.audience}</span>  
                         </div>
                     </div>
                 )
             }
-
-            //Render from Changes
-            return(
-                <div key={i} onClick={() => onOpen(i)} className={styles.changedTimetableItem__wrapper}>
+    
+            //Render from timetable
+            return (
+                <div key={i} onClick={() => onOpen(i)} className={styles.timetableItem__wrapper}>
                     <div className={styles.time__wrapper}>{timetable[item].time}</div>
                     <div className={styles.textItems__wrapper}>
-                        <span className={styles.lessionName}>{changes[item].lessionName}</span>
+                        <span className={styles.lessionName}>{timetable[item].lessionName}</span>
                         <br></br>
-                        <span>{changes[item].teacher}</span>
+                        <span>{timetable[item].teacher}</span>
                     </div>
-                    <div>{changes[item].audience}</div>
-                    {changes[item].type === null ? <p></p> : null}
+                    <div>{timetable[item].audience}</div>
+                    {timetable[item].type === null ? <p></p> : null}
                 </div>
             )
-        }
-        
-        //Render from timetable for special
-        if (timetable[item].type === "byWeek"){
-            return (
-                <div onClick={() => onOpen(i)} className={styles.SpecialTimetableItem__wrapper} key={timetable[item].time}>
-                    <div className={styles.time__wrapper}>{timetable[item].time}</div>
-                    <div className={styles.textInfo__wrapper}>
-                        <div className={styles.first}>
-                            <span className={styles.lessionName}>{timetable[item].numerator.lessionName}</span>
-                            <br></br>
-                            <span>{timetable[item].numerator.teacher}</span>
-                        </div>
-                        <div className={styles.line}></div>
-                        <div className={styles.first}>
-                            <span className={styles.lessionName}>{timetable[item].denumerator.lessionName}</span>
-                            <br></br>
-                            <span>{timetable[item].denumerator.teacher}</span> 
-                        </div>
-                          
-                    </div>
-                    <div>
-                        <span>{timetable[item].numerator.audience}</span>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <span>{timetable[item].denumerator.audience}</span>  
-                    </div>
-                </div>
-            )
-        }
-
-        //Render from timetable
-        return (
-            <div key={i} onClick={() => onOpen(i)} className={styles.timetableItem__wrapper}>
-                <div className={styles.time__wrapper}>{timetable[item].time}</div>
-                <div className={styles.textItems__wrapper}>
-                    <span className={styles.lessionName}>{timetable[item].lessionName}</span>
-                    <br></br>
-                    <span>{timetable[item].teacher}</span>
-                </div>
-                <div>{timetable[item].audience}</div>
-                {timetable[item].type === null ? <p></p> : null}
-            </div>
-        )
+        } 
     })
+
 
     if(timetableStatus === 'loading'){
         return (
@@ -300,10 +302,12 @@ const createPermanent = () => {
                     onClose = {onClose} 
                     lessionNum={lessionNum} 
                     onDelete={onDelete}/>
-                <div>
-                    <button onClick={onSend}>Сохранить</button>
-                    <button onClick={onClear}>Отмнеить</button>
-                </div>
+                    {selectedDay === '' ? null : (
+                        <div className={styles.buttons__wrapper}>
+                            <button onClick={onSend} className={styles.saveButton}>Сохранить</button>
+                            <button onClick={onClear} className={styles.discardButton}>Отмнеить</button>
+                        </div>
+                    )}
             </div>
         </>
     )

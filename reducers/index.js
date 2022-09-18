@@ -5,7 +5,9 @@ const initialState = {
     discliplines: '', 
     discliplinesStatus: 'ídle',
     user: '',
-    userStatus: 'idle'
+    userStatus: 'idle',
+    unconfirmed: [], 
+    unconfirmedStatus: 'idle'
 }
 
 const reducer = (state = initialState, action) => {
@@ -62,6 +64,22 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state, 
                 userStatus: 'error'
+            }
+        case 'UNCONFIRMED_FETCHING':
+            return {
+                ...state, 
+                unconfirmedStatus: 'loading'
+            }
+        case 'UNCONFIRMED_FETCHED':
+            return {
+                ...state, 
+                unconfirmedStatus: 'idle',
+                unconfirmed: action.payload
+            }
+        case 'UNCONFIRMED_FETCHING_ERROR':
+            return {
+                ...state, 
+                unconfirmedStatus: 'error'
             }
         default:
             return state
