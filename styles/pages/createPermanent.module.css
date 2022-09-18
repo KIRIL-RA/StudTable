@@ -39,3 +39,10 @@
     min-height: 60px;
     color: gray;
 }
+.line{
+    border-bottom: 2px solid black;
+}
+.first{
+    padding: 10px;
+    text-align: center;
+}

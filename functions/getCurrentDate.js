@@ -20,7 +20,7 @@ const getCurrentDate = () => {
         case 6:
             weekDay = 'Суббота';
             break;
-        case 7:
+        case 0:
             weekDay = 'Воскресенье';
             break;
     }

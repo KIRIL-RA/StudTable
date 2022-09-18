@@ -187,13 +187,25 @@ const createPermanent = () => {
                     <div onClick={() => onOpen(i)} className={styles.SpecialTimetableItem__wrapper} key={timetable[item].time}>
                         <div className={styles.time__wrapper}>{timetable[item].time}</div>
                         <div className={styles.textInfo__wrapper}>
-                            <span className={styles.lessionName}>{changes[item].numerator?.lessionName}</span>
-                            <span>{changes[item].numerator?.teacher}</span>
-                            <span>{changes[item].numerator?.audience}</span>
+                            <div className={styles.first}>
+                                <span className={styles.lessionName}>{changes[item].numerator?.lessionName}</span>
+                                <br></br>
+                                <span>{changes[item].numerator?.teacher}</span>
+                            </div>
+                            <div className={styles.line}></div>
+                            <div className={styles.first}>
+                                <span className={styles.lessionName}>{changes[item].denumerator?.lessionName}</span>
+                                <br></br>
+                                <span>{changes[item].denumerator?.teacher}</span>
+                            </div>     
+                        </div>
+
+                        <div>
+                            <span>{changes[item].numerator?.audience}</span> 
                             <br></br>
-                            <span className={styles.lessionName}>{changes[item].denumerator?.lessionName}</span>
-                            <span>{changes[item].denumerator?.teacher}</span> 
-                            <span>{changes[item].denumerator?.audience}</span>        
+                            <br></br>
+                            <br></br>
+                            <span>{changes[item].denumerator?.audience}</span>   
                         </div>
                     </div>
                 )
@@ -220,20 +232,25 @@ const createPermanent = () => {
                 <div onClick={() => onOpen(i)} className={styles.SpecialTimetableItem__wrapper} key={timetable[item].time}>
                     <div className={styles.time__wrapper}>{timetable[item].time}</div>
                     <div className={styles.textInfo__wrapper}>
-                        <span className={styles.lessionName}>{timetable[item].numerator.lessionName}</span>
-                        <span>{timetable[item].numerator.teacher}</span>
-                        
+                        <div className={styles.first}>
+                            <span className={styles.lessionName}>{timetable[item].numerator.lessionName}</span>
+                            <br></br>
+                            <span>{timetable[item].numerator.teacher}</span>
+                        </div>
+                        <div className={styles.line}></div>
+                        <div className={styles.first}>
+                            <span className={styles.lessionName}>{timetable[item].denumerator.lessionName}</span>
+                            <br></br>
+                            <span>{timetable[item].denumerator.teacher}</span> 
+                        </div>
+                          
+                    </div>
+                    <div>
+                        <span>{timetable[item].numerator.audience}</span>
                         <br></br>
-                        <span className={styles.lessionName}>{timetable[item].denumerator.lessionName}</span>
-                        {/* {timetable[item].numeratoe.type === null ? <br></br> : null } */}
-                        <span>{timetable[item].denumerator.teacher}</span> 
-                       
-
-                        <div>
-                            <span>{timetable[item].numerator.audience}</span>
-                            <span>{timetable[item].denumerator.audience}</span>  
-                        </div>     
-                        
+                        <br></br>
+                        <br></br>
+                        <span>{timetable[item].denumerator.audience}</span>  
                     </div>
                 </div>
             )

@@ -27,36 +27,38 @@ const timetable = () => {
             .catch(() => dispatch(timetableFetchingError()))
     }, [/* selectedDay */])
 
-    let timetableList = Object.keys(timetable)?.map(item => {
-        if (timetable[item].type === "byWeek"){
+    let timetableList;
+    if (timetable){
+        timetableList = Object.keys(timetable).map(item => {
+            if (timetable[item].type === "byWeek"){
+                return (
+                    <div className={styles.timetable__item} key={timetable[item].time}>
+                        <div className={styles.time__wrapper}>{timetable[item].time}</div>
+                        <div className={styles.textInfo__wrapper}>
+                            {typeOfWeek === 'numerator' ? <span>Числ.</span> : <span>Знам.</span>}
+                            <span className={styles.lessionName}>{timetable[item][typeOfWeek].lessionName}</span>
+                            <br></br>
+                            <span>{timetable[item][typeOfWeek].teacher}</span>
+                        </div>
+                        <div>{timetable[item][typeOfWeek].audience}</div>
+                        {timetable[item].type === null ? <p></p> : null}
+                    </div>
+                )
+            }
             return (
                 <div className={styles.timetable__item} key={timetable[item].time}>
                     <div className={styles.time__wrapper}>{timetable[item].time}</div>
                     <div className={styles.textInfo__wrapper}>
-                        {typeOfWeek === 'numerator' ? <span>Числ.</span> : <span>Знам.</span>}
-                        <span className={styles.lessionName}>{timetable[item][typeOfWeek].lessionName}</span>
+                        <span className={styles.lessionName}>{timetable[item].lessionName}</span>
                         <br></br>
-                        <span>{timetable[item][typeOfWeek].teacher}</span>
+                        <span>{timetable[item].teacher}</span>
                     </div>
-                    <div>{timetable[item][typeOfWeek].audience}</div>
+                    <div>{timetable[item].audience}</div>
                     {timetable[item].type === null ? <p></p> : null}
                 </div>
             )
-        }
-        return (
-            <div className={styles.timetable__item} key={timetable[item].time}>
-                <div className={styles.time__wrapper}>{timetable[item].time}</div>
-                <div className={styles.textInfo__wrapper}>
-                    <span className={styles.lessionName}>{timetable[item].lessionName}</span>
-                    <br></br>
-                    <span>{timetable[item].teacher}</span>
-                </div>
-                <div>{timetable[item].audience}</div>
-                {timetable[item].type === null ? <p></p> : null}
-            </div>
-        )
-        
-    }) 
+        }) 
+    }
 
     if(timetableStatus === 'loading'){
         return (
