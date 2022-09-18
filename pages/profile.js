@@ -17,7 +17,6 @@ const profile = () => {
 
     useEffect(() => {
         checkLogin();
-        checkPermissons();
     }, [])
     useEffect(() => {
         if (user === ''){
