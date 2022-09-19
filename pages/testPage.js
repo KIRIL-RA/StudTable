@@ -54,12 +54,12 @@ const testPage = () => {
 
     const onClickedregisryNewUser = () => {
         let body = {
-            userName: "Popov 2",
+            userName: "Popov 12",
             password: "qwerty",
             accountType: "Student",
             email: "anna@dosbox.com",
             realInfo: {
-                firstName: "Арсений",
+                firstName: "Нацист",
                 secondName: "Попов"
             },
             academyInfo: {

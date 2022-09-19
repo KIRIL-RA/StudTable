@@ -1,6 +1,6 @@
 import checkLogin from "../functions/checkLogin";
 import checkPermissons from "../functions/checkPermissons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "../styles/pages/confirmAccounts.module.css"
 import Layout from "../components/Layout/Layout";
@@ -14,10 +14,18 @@ const confirmAccounts = () => {
 
     const {request} = useHttp();
     const dispatch = useDispatch();
-    const {unconfirmed} = useSelector(state => state.reducer)
+    const {unconfirmed} = useSelector(state => state.reducer); 
+    const [confirmed, setConfirmed] = useState([]);
+ 
     const onConfirm = (id) => {
-        console.log(id)
+        let body = {userId: id}
+        request(`${parameters.API_HOST}/confirmaccount`, 'POST', JSON.stringify(body)).then(res => {
+            if (res.statusCode === '100'){
+                setConfirmed(confirmed => [...confirmed, id]);
+            }
+        }) 
     }
+
     useEffect(() => {
         checkLogin();
         checkPermissons();
@@ -29,14 +37,26 @@ const confirmAccounts = () => {
             .then(res => dispatch(unconfirmedFetched(res.data)))
             .catch(() => dispatch(unconfirmedFetchingError()))
     }, [])
+    
 
     let unconfirmedList = unconfirmed.map(item => {
+        if (confirmed?.includes(item.userId)){
+            return(
+                <div className={styles.list__item_confirmed} key={item.userId}>
+                    <span className={styles.name}>{item.realInfo.firstName} {item.realInfo.secondName}</span>
+                    <div>
+                        {/* <button className={styles.decline}>Отклонить</button>
+                        <button className={styles.accept}>Принять</button> */}
+                    </div>
+                </div>
+            )
+        }
         return(
             <div className={styles.list__item} key={item.userId}>
-                <span>{item.realInfo.firstName} {item.realInfo.secondName}</span>
+                <span className={styles.name}>{item.realInfo.firstName} {item.realInfo.secondName}</span>
                 <div>
-                    <button>Хуйло</button>
-                    <button  onClick={() =>onConfirm(item.userId)}>Принять</button>
+                    <button className={styles.decline}>Отклонить</button>
+                    <button className={styles.accept} onClick={() =>onConfirm(item.userId)}>Принять</button>
                 </div>
             </div>
         )
@@ -45,8 +65,9 @@ const confirmAccounts = () => {
     return (
         <>
             <Layout />
-            <h3 className={styles.title}>Принять одногруппников:</h3>
+            <h3 className={styles.title}>Подтвердить аккаунты:</h3>
             {unconfirmedList}
+            {unconfirmedList.length === 0 ? <p className={styles.title}>Нет аккаунтов для подтверждения</p> : null}
         </>
     )
 }

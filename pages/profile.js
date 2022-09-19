@@ -8,7 +8,6 @@ import styles from "../styles/pages/profile.module.css"
 import Spinner from "../components/major/Spinner/Spinner";
 
 import checkLogin from "../functions/checkLogin";
-import checkPermissons from "../functions/checkPermissons";
 
 const profile = () => {
     const dispatch = useDispatch()
@@ -17,7 +16,6 @@ const profile = () => {
 
     useEffect(() => {
         checkLogin();
-        checkPermissons();
     }, [])
     useEffect(() => {
         if (user === ''){
