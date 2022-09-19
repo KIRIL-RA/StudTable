@@ -40,10 +40,10 @@ const timetable = () => {
                         <div className={styles.timetable__item} key={timetable[item].time}>
                             <div className={styles.time__wrapper}>{timetable[item].time}</div>
                             <div className={styles.textInfo__wrapper}>
-                                {typeOfWeek === 'numerator' ? <span>Числ.</span> : <span>Знам.</span>}
-                                <span className={styles.lessionName}>{timetable[item][typeOfWeek].lessionName}</span>
-                                <br></br>
-                                <span>{timetable[item][typeOfWeek].teacher}</span>
+                                    <span className={styles.lessionName}>{timetable[item][typeOfWeek].lessionName} </span>
+                                    {typeOfWeek === 'numerator' ? <span className={styles.vertical}>Числ.</span> : <span className={styles.vertical}>Знам.</span>}
+                                    <br></br>
+                                    <span>{timetable[item][typeOfWeek].teacher}</span>
                             </div>
                             <div>{timetable[item][typeOfWeek].audience}</div>
                             {timetable[item].type === null ? <p></p> : null}

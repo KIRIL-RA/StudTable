@@ -62,13 +62,12 @@ const confirmAccounts = () => {
         )
     })
 
-    console.log(unconfirmedList)
-
     return (
         <>
             <Layout />
             <h3 className={styles.title}>Подтвердить аккаунты:</h3>
             {unconfirmedList}
+            {unconfirmedList.length === 0 ? <p className={styles.title}>Нет аккаунтов для подтверждения</p> : null}
         </>
     )
 }
