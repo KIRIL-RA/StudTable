@@ -9,27 +9,38 @@ import { useSelector, useDispatch } from "react-redux";
 import { timetableFetching, timetableFetched, timetableFetchingError} from '../actions/actions'
 import Layout from "../components/Layout/Layout";
 import Spinner from "../components/major/Spinner/Spinner";
+import parceDate from "../functions/parceDate";
 
 const timetable = () => {
+    const [day, setDay] = useState(new Date().toLocaleDateString('en-ca'));
     const { request } = useHttp();
     const dispatch = useDispatch();
     useEffect(() => checkLogin(), []); 
     const [typeOfWeek, setTypeOfWeek] = useState('numerator');
     const [isVisiable, setIsVisiable] = useState(false);
 
+    const handleDateUpdate = (e) => {
+        setDay(e.target.value);
+        onClose();
+    }
+
+    useEffect(() => {
+            
+            dispatch(timetableFetching())
+            let dateArray = String(day).split('-').reverse().join('.')
+            let body = {
+                day: dateArray,
+                request: 'asd'
+            }
+            request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body))
+                .then(result => dispatch(timetableFetched(result.data)))
+                .catch(() => dispatch(timetableFetchingError()))
+    }, [day])
     const onOpen = () => setIsVisiable(true);
     const onClose = () => setIsVisiable(false);
 
     const {timetable, timetableStatus} = useSelector(state => state.reducer)
 
-    useEffect(() => {
-        dispatch(timetableFetching())
-        let body = {request: 'per', day: getDayString()} //заменить статичную хуету на getDayString
-
-        request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body))
-            .then(result => dispatch(timetableFetched(result.data)))
-            .catch(() => dispatch(timetableFetchingError()))
-    }, [/* selectedDay */])
 
     let timetableList;
     if (timetable){
@@ -77,10 +88,10 @@ const timetable = () => {
 
     if(timetableStatus === 'idle'){
         return (
-            <>  
+            <> 
                 <Layout></Layout>
                 <main>
-                    <h2 className={styles.main__title} onClick={onOpen}>{getCurrentDate()}</h2>
+                    {!day ? <h2 className={styles.main__title} onClick={onOpen}>{getCurrentDate(new Date())}</h2> : <h2 className={styles.main__title} onClick={onOpen}>{getCurrentDate(parceDate(day, 'default'))}</h2>}
                     <div className={styles.timetable__wrapper}>
                         {timetableList}
                     </div>
@@ -92,7 +103,7 @@ const timetable = () => {
                                     <span className={styles.Modal__close} onClick={onClose}>&times;</span>
                                 </div>
                                 <div className={styles.Modal__content}>
-                                    <input type="date"></input>
+                                    <input type="date" value={day} onChange={e => handleDateUpdate(e)}></input>
                                 </div>
                             </div>
                         </div>

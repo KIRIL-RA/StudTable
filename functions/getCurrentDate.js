@@ -1,5 +1,5 @@
-const getCurrentDate = () => {
-    let date = new Date(), weekDay, month; 
+const getCurrentDate = (date) => {
+    let weekDay, month; 
 
     switch (date.getDay()){
         case 1:
@@ -24,6 +24,9 @@ const getCurrentDate = () => {
             weekDay = 'Воскресенье';
             break;
     }
+
+    /* console.log(date)
+    console.log(date.getMonth()) */
 
     switch (date.getMonth()){
         case 0:
