@@ -7,6 +7,9 @@ const DBWork = require("./databaseWork");
  * @param {Number} dayUTC 
  */
 function GetWeekType(dayUTC) {
+    let unfilledDays;
+    let WeekDayOfFirstSeptember;
+    let firstOfSeptemberFullWeekMillis;
     let firstOfSeptember;
     let firstOfSeptemberMillis;
     let timeDelta;
@@ -23,7 +26,10 @@ function GetWeekType(dayUTC) {
 
     // Calculate number of weeks elapsed
     firstOfSeptemberMillis = firstOfSeptember.getTime();
-    timeDelta = inputDateMillis - firstOfSeptember;
+    WeekDayOfFirstSeptember = firstOfSeptember.getDay();
+    unfilledDays = (WeekDayOfFirstSeptember - 1) * 24 * 60 * 60 * 1000;
+    firstOfSeptemberFullWeekMillis = firstOfSeptemberMillis - unfilledDays;
+    timeDelta = inputDateMillis - firstOfSeptemberFullWeekMillis;
     timeDelta = Math.trunc(timeDelta / (7 * 24 * 60 * 60 * 1000));
     if(timeDelta % 2 == 0) return 'numerator';
     return 'denumerator';
