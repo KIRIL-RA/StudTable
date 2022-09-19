@@ -1,7 +1,33 @@
 const DaysOfWeek = require("../pages/static/DaysOfWeeks.json");
 const { NotAllParametersWereRecievedError } = require("./Exceptions/CommonExceptions");
 const DBWork = require("./databaseWork");
-const { transformSortedSetWithScoresReply } = require("@redis/client/dist/lib/commands/generic-transformers");
+
+/**
+ * Getting week type of concrete day
+ * @param {Number} dayUTC 
+ */
+function GetWeekType(dayUTC) {
+    let firstOfSeptember;
+    let firstOfSeptemberMillis;
+    let timeDelta;
+
+    let inputDate = new Date(dayUTC);
+    let month = inputDate.getMonth() + 1;
+    let inputDateMillis = inputDate.getTime();
+
+    // If we in second part of study year
+    if (month < 9) firstOfSeptember = new Date(inputDate.getFullYear() - 1, 9-1, 1);
+
+    // If we in first part of study year
+    else firstOfSeptember = new Date(inputDate.getFullYear(), 9-1, 1);
+
+    // Calculate number of weeks elapsed
+    firstOfSeptemberMillis = firstOfSeptember.getTime();
+    timeDelta = inputDateMillis - firstOfSeptember;
+    timeDelta = Math.trunc(timeDelta / (7 * 24 * 60 * 60 * 1000));
+    if(timeDelta % 2 == 0) return 'numerator';
+    return 'denumerator';
+}
 
 const daysOfWeekArr = [
     DaysOfWeek.MONDAY,
@@ -13,7 +39,7 @@ const daysOfWeekArr = [
     DaysOfWeek.SUNDAY
 ];
 
-class DayOfWeek{
+class DayOfWeek {
     /**
      * Create object with day timetable for day of week
      * @param {DBWork} DBWork 
@@ -24,7 +50,7 @@ class DayOfWeek{
      * @param {string} course
      * @param {object} changes
      */
-    constructor(DBWork, day, academyId, direction, group, course, changes = undefined){
+    constructor(DBWork, day, academyId, direction, group, course, changes = undefined) {
         if (DBWork === undefined || DBWork === null) throw new NotAllParametersWereRecievedError("You must specify all parameters");
 
         this.database = DBWork;
@@ -39,15 +65,15 @@ class DayOfWeek{
     /**
      * Validate timeTable
      */
-    async Validate(){
+    async Validate() {
 
     }
 
     /**
      * Updating timeTable
      */
-    async UpdateTimeTable(){
-        if(this.changes === undefined) return;
+    async UpdateTimeTable() {
+        if (this.changes === undefined) return;
 
         // Data validation
         await this.Validate();
@@ -61,20 +87,20 @@ class DayOfWeek{
         let newTimeTable = {};
 
         // Forming new timeTable
-        for(let lessionNumber = 0; lessionNumber < lessionsCount; lessionNumber++){
+        for (let lessionNumber = 0; lessionNumber < lessionsCount; lessionNumber++) {
             let lessionNumberS = String(lessionNumber);
             let change = this.changes[lessionNumberS];
             let timePeriod = timeGrid[lessionNumberS];
             let topicalTimeItem = timeTable[lessionNumberS];
 
             // If no changes in timeTable
-            if(change === undefined){
+            if (change === undefined) {
                 newTimeTable[lessionNumberS] = topicalTimeItem;
                 newTimeTable[lessionNumberS].time = timePeriod;
             }
 
             // If timeTable were changed
-            else{
+            else {
                 newTimeTable[lessionNumberS] = change;
                 newTimeTable[lessionNumberS].time = timePeriod;
             }
@@ -88,7 +114,7 @@ class DayOfWeek{
      * Get timne table for all days
      * @returns Timetable for all days 
      */
-    async GetTimeTableAllDays(){
+    async GetTimeTableAllDays() {
         const database = this.database;
         let result = await database.GetTimeTable(this.academyId, this.direction, this.group, this.course);
 
@@ -98,19 +124,19 @@ class DayOfWeek{
     /**
      * Getting timeTable from database
      */
-    async GetTimeTable(){
+    async GetTimeTable() {
         const database = this.database;
         let result = await database.GetTimeTable(this.academyId, this.direction, this.group, this.course);
         let dayTimeTable = result.table[this.day];
 
         // If timeTable for this day of week exist
-        if(dayTimeTable !== undefined)return dayTimeTable;
+        if (dayTimeTable !== undefined) return dayTimeTable;
 
         // If timeTable for this day of week not exist, forming object without lessons
         dayTimeTable = {};
         let timeGrid = await this.GetTimeGrid();
         let timeGridKeys = Object.keys(timeGrid);
-        timeGridKeys.forEach(lessonNum =>{
+        timeGridKeys.forEach(lessonNum => {
             dayTimeTable[lessonNum] = {
                 type: null,
                 time: timeGrid[lessonNum]
@@ -123,7 +149,7 @@ class DayOfWeek{
     /**
      * Getting time grid from database
      */
-    async GetTimeGrid(){
+    async GetTimeGrid() {
         const database = this.database;
         let result = await database.GetUniversityInfo(this.academyId);
 
@@ -131,7 +157,7 @@ class DayOfWeek{
     }
 }
 
-class SpecificDay{
+class SpecificDay {
     /**
      * Create object with day timetable for spicific day
      * @param {DBWork} DBWork 
@@ -142,7 +168,7 @@ class SpecificDay{
      * @param {string} course
      * @param {object} changes
      */
-    constructor(DBWork, day, academyId, direction, group, course, changes = undefined){
+    constructor(DBWork, day, academyId, direction, group, course, changes = undefined) {
         if (DBWork === undefined || DBWork === null) throw new NotAllParametersWereRecievedError("You must specify all parameters");
 
         this.database = DBWork;
@@ -157,30 +183,44 @@ class SpecificDay{
     /**
      * Validate timeTable
      */
-     async Validate(){
+    async Validate() {
 
     }
 
     /**
      * Getting timeTable from database
      */
-     async GetTimeTable(){
+    async GetTimeTable() {
         const database = this.database;
         let date = this.GetFormattedDate();
 
         // If day have any deviations from main timeTable
         let result = await database.GetTimeTable(this.academyId, this.direction, this.group, this.course, date.dateString);
-        if(result != null) return result.table;
+        if (result != null) return result.table;
 
         // If day doesnt have any deviations from main timeTable
         result = await database.GetTimeTable(this.academyId, this.direction, this.group, this.course);
-        return result.table[daysOfWeekArr[date.weekDay-1]];
+        // If timeTable for this day of week exist
+        if (result.table[daysOfWeekArr[date.weekDay - 1]] !== undefined) return result.table[daysOfWeekArr[date.weekDay - 1]];     
+
+        // If timeTable for this day of week not exist, forming object without lessons
+        let dayTimeTable = {};
+        let timeGrid = await this.GetTimeGrid();
+        let timeGridKeys = Object.keys(timeGrid);
+        timeGridKeys.forEach(lessonNum => {
+            dayTimeTable[lessonNum] = {
+                type: null,
+                time: timeGrid[lessonNum]
+            }
+        });
+
+        return dayTimeTable;
     }
 
     /**
      * Getting time grid from database
      */
-     async GetTimeGrid(){
+    async GetTimeGrid() {
         const database = this.database;
         let result = await database.GetUniversityInfo(this.academyId);
 
@@ -191,19 +231,25 @@ class SpecificDay{
      * 
      * Getting date, formatted for database
      */
-    GetFormattedDate(){
+    GetFormattedDate() {
         let dateArray = String(this.day).split('.');
 
-        let date_ob = new Date(Number(dateArray[2]), Number(dateArray[1])-1, Number(dateArray[0]));
+        let date_ob = new Date(Number(dateArray[2]), Number(dateArray[1]) - 1, Number(dateArray[0]));
         let date = ("0" + date_ob.getDate()).slice(-2);
         let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
         let year = date_ob.getFullYear();
 
-        return { 
+        return {
+            dateOb: date_ob,
             weekDay: date_ob.getDay(),
-            dateString: `${date}.${month}.${year}` 
+            dateString: `${date}.${month}.${year}`
         };
+    }
+
+    GetWeekType() {
+        let date = this.GetFormattedDate();
+        return GetWeekType(date.dateOb.getTime());
     }
 }
 
-module.exports = {DayOfWeek, SpecificDay};
+module.exports = { DayOfWeek, SpecificDay };

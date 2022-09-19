@@ -3,7 +3,7 @@ const ResponseSamples = require("../../classes/ResponseSamples");
 const StatusCodes = require("../static/StatusCodes.json");
 const TableTypes = require("../static/TableTypes.json");
 const Actions = require("../static/Actions.json");
-const { DayOfWeek, SpecificDay } = require("../../classes/TimeTable");
+const { DayOfWeek, SpecificDay} = require("../../classes/TimeTable");
 const { DBWork, StudTableDatabase } = require('../../classes/databaseWork');
 const { UserWithToken } = require("../../classes/User");
 import { getCookie } from 'cookies-next';
@@ -69,10 +69,10 @@ export default async function handler(req, res) {
                 academyInfo = user.userData.academy;
                 dayTimeTable = new SpecificDay(Database, day, academyInfo.id, academyInfo.directionId, academyInfo.group, academyInfo.course);
                 timeTable = await dayTimeTable.GetTimeTable();
+                timeTable.weekType = dayTimeTable.GetWeekType();
                 break;
         }
 
-        timeTable.weekType = "numerator";
         res.setHeader('Accept-Encoding','gzip, deflate, br');
         res.setHeader('Accept-Language','ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7');
         res.setHeader('Content-Type', 'application/json');
