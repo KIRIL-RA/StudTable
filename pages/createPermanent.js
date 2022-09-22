@@ -28,12 +28,14 @@ const createPermanent = () => {
         initialValues: {
             subject: '', 
             teacher: '',
-            audience: ''
+            audience: '',
+            lessionType: ''
         },
         validationSchema: Yup.object({
             subject: Yup.string().required('Выберите предмет!'),
             teacher: Yup.string().required('Выберите преподавателя!'),
-            audience: Yup.string().required('Введите аудиторию!')
+            audience: Yup.string().required('Введите аудиторию!'),
+            lessionType: Yup.string().required('Выберите тип лекции')
         }), 
         onSubmit: values => {
             let changeObj = {};
@@ -41,6 +43,7 @@ const createPermanent = () => {
                 audience: values.audience,
                 lessionName: values.subject, 
                 teacher: values.teacher,
+                lessionType: values.lessionType,
                 type: tableTypes.PERMANENT  
             }
 
@@ -76,10 +79,12 @@ const createPermanent = () => {
         initialValues: {
             numSubject: '',
             numTeacher: '',
-            numAudience: '', 
+            numAudience: '',
+            numLessionType: '',
             denumSubject: '',
             denumTeacher: '',
-            denumAudience: ''
+            denumAudience: '',
+            denumLessionType: ''
         },
         validate,
         onSubmit: values => {
@@ -93,12 +98,14 @@ const createPermanent = () => {
                     lessionName: values.numSubject, 
                     teacher: values.numTeacher,
                     audience: values.numAudience,
+                    lessionType: values.numLessionType,
                     type: type1
                 },
                 denumerator: {
                     lessionName: values.denumSubject, 
                     teacher: values.denumTeacher,
                     audience: values.denumAudience,
+                    lessionType: values.denumLessionType,
                     type: type2
                 },
                 type: 'byWeek'

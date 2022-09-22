@@ -24,12 +24,10 @@ const profile = () => {
     }, [])
 
     useEffect(() => {
-        if (user === ''){
-            dispatch(userFetching())
-            request(`${parameters.API_HOST}/getuserinfo`)
-                .then(response => response.statusCode === '100' ? dispatch(userFetched(response.data)) : dispatch(userFetchingError()))
-                .catch(() => dispatch(userFetchingError()))
-        }
+        dispatch(userFetching())
+        request(`${parameters.API_HOST}/getuserinfo`)
+            .then(response => response.statusCode === '100' ? dispatch(userFetched(response.data)) : dispatch(userFetchingError()))
+            .catch(() => dispatch(userFetchingError()))
     }, [])
     
     if (userStatus === 'loading' || user === ''){

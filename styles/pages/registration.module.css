@@ -1,0 +1,36 @@
+.pageWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.input{ 
+    width: 90%;
+    font-size: 16px;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    margin: 5px auto;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.button{
+    width: 90%;
+    font-size: 16px;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    margin: 5px auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+}
+.select{
+    width: 90%;
+    font-size: 16px;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    margin: 5px auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+}
+.error{
+    color: red;
+}

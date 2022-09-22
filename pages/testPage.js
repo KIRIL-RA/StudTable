@@ -85,8 +85,7 @@ const testPage = () => {
 
     const onClickedConfirmAccount = () => {
         let body = {
-            userId: "7779494225911263", 
-            userId: "707"
+            userId: "7779494225911263"
         };
 
         request(`${parameters.API_HOST}/confirmaccount`, 'POST', JSON.stringify(body));

@@ -53,7 +53,7 @@
     text-align: center;
 }
 .main__title{
-    text-align: center;
+    margin: 0;
 }
 .timetable__item{
     display: flex;
@@ -76,6 +76,11 @@
 .main__title{
     text-decoration: underline;
 }
-.vertical{
-    font-size: 12px;
+.weekType{
+    margin: 0;
+    font-weight: 500;
+}
+.dayInfo{
+    text-align: center;
+    margin: 1em 0 1em 0;
 }

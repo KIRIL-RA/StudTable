@@ -77,17 +77,24 @@ const ChangeTimetableModal = ({ isVisiable, onClose, lessionNum, formik, special
 
                     {modalType === 'default' ? (
                         <form onSubmit={formik.handleSubmit}>
-                            <select className={styles.select} name="subject" value={formik.subject} onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                            <select className={styles.select} name="subject" onChange={formik.handleChange} onBlur={formik.handleBlur}>
                                 <option value="">Выберите предмет</option>
                                 {discliplinesOptions}
                             </select>
                             {formik.errors.subject && formik.touched.subject ? <div>{formik.errors.subject}</div> : null}
 
-                            <select className={styles.select} name="teacher" value={formik.values.teacher} onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                            <select className={styles.select} name="teacher" onChange={formik.handleChange} onBlur={formik.handleBlur}>
                                 <option value="">Выберите преподователя</option>
                                 {teacherOptions}
                             </select>
                             {formik.errors.teacher && formik.touched.teacher ? <div>{formik.errors.teacher}</div> : null}
+
+                            <select className={styles.select} name="lessionType" onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                                <option value="">Выберите тип занятия</option>
+                                <option value="lecture">Лекция</option>
+                                <option value="seminar">Семинар</option>
+                            </select>
+                            {formik.errors.lessionType && formik.touched.lessionType ? <div>{formik.errors.lessionType}</div> : null}
 
                             <input  className={styles.input} name="audience"  placeholder="Введите номер аудитории" value={formik.values.audience} onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
                             {formik.errors.audience && formik.touched.audience ? <div>{formik.errors.audience}</div> : null}
@@ -113,6 +120,13 @@ const ChangeTimetableModal = ({ isVisiable, onClose, lessionNum, formik, special
                             </select>
                             {specialFormik.errors.numTeacher && specialFormik.touched.numTeacher ? <div>{specialFormik.errors.numTeacher}</div> : null}
 
+                            <select className={styles.select} name="numLessionType" onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                                <option value="">Выберите тип занятия</option>
+                                <option value="lecture">Лекция</option>
+                                <option value="seminar">Семинар</option>
+                            </select>
+                            {formik.errors.numLessionType && formik.touched.numLessionType ? <div>{formik.errors.numLessionType}</div> : null}
+
                             <input className={styles.input} name="numAudience"  placeholder="Введите номер аудитории" value={specialFormik.values.numAudience} onChange={specialFormik.handleChange} onBlur={specialFormik.handleBlur}></input>
                             {specialFormik.errors.numAudience && specialFormik.touched.numAudience ? <div>{specialFormik.errors.numAudience}</div> : null}
 
@@ -130,6 +144,13 @@ const ChangeTimetableModal = ({ isVisiable, onClose, lessionNum, formik, special
                                 {denumTeacherOptions}
                             </select>
                             {specialFormik.errors.denumTeacher && specialFormik.touched.denumTeacher ? <div>{specialFormik.errors.denumTeacher}</div> : null}
+
+                            <select className={styles.select} name="denumLessionType" onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                                <option value="">Выберите тип занятия</option>
+                                <option value="lecture">Лекция</option>
+                                <option value="seminar">Семинар</option>
+                            </select>
+                            {formik.errors.denumLessionType && formik.touched.denumLessionType ? <div>{formik.errors.denumLessionType}</div> : null}
 
                             <input className={styles.input} name="denumAudience"  placeholder="Введите номер аудитории" value={specialFormik.values.denumAudience} onChange={specialFormik.handleChange} onBlur={specialFormik.handleBlur}></input>
                             {specialFormik.errors.audience && specialFormik.touched.denumAudience ? <div>{specialFormik.errors.audience}</div> : null}

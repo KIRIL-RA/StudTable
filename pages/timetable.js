@@ -16,7 +16,7 @@ const timetable = () => {
     const { request } = useHttp();
     const dispatch = useDispatch();
     useEffect(() => checkLogin(), []); 
-    const [typeOfWeek, setTypeOfWeek] = useState('numerator');
+    const [typeOfWeek, setTypeOfWeek] = useState('');
     const [isVisiable, setIsVisiable] = useState(false);
 
     const handleDateUpdate = (e) => {
@@ -33,7 +33,10 @@ const timetable = () => {
                 request: 'asd'
             }
             request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body))
-                .then(result => dispatch(timetableFetched(result.data)))
+                .then(result => {
+                    dispatch(timetableFetched(result.data))
+                    setTypeOfWeek(result.data.weekType)
+                })
                 .catch(() => dispatch(timetableFetchingError()))
     }, [day])
     const onOpen = () => setIsVisiable(true);
@@ -57,7 +60,7 @@ const timetable = () => {
                                     <span>{timetable[item][typeOfWeek].teacher}</span>
                             </div>
                             <div>{timetable[item][typeOfWeek].audience}</div>
-                            {timetable[item].type === null ? <p></p> : null}
+                            {timetable[item][typeOfWeek].type === null ? <p></p> : null}
                         </div>
                     )
                 }
@@ -86,12 +89,16 @@ const timetable = () => {
         )
     }
 
+
     if(timetableStatus === 'idle'){
         return (
             <> 
                 <Layout></Layout>
                 <main>
-                    {!day ? <h2 className={styles.main__title} onClick={onOpen}>{getCurrentDate(new Date())}</h2> : <h2 className={styles.main__title} onClick={onOpen}>{getCurrentDate(parceDate(day, 'default'))}</h2>}
+                    <div className={styles.dayInfo}>
+                        {!day ? <span className={styles.main__title} onClick={onOpen}>{getCurrentDate(new Date())}</span> : <h2 className={styles.main__title} onClick={onOpen}>{getCurrentDate(parceDate(day, 'default'))}</h2>}
+                        {timetable?.weekType === 'numerator' ? <span className={styles.weekType}>Числитель</span> : <span className={styles.weekType}>Знаменатель</span>}
+                    </div>
                     <div className={styles.timetable__wrapper}>
                         {timetableList}
                     </div>
