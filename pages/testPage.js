@@ -35,8 +35,8 @@ const testPage = () => {
 
     const onClickedGetTT = () => {
         let body = {
-            day: "Tuesday",
-            request: "per"
+            day: "17.9.2022",
+            request: "asd"
         };
 
         request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body));
