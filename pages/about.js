@@ -1,4 +1,4 @@
-import checkLogin from "../functions/checklogin";
+import checkLogin from "../functions/checkLogin";
 import { useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import Link from "next/link";

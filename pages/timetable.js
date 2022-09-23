@@ -1,5 +1,5 @@
 import styles from "../styles/pages/timetable.module.css"
-import checkLogin from "../functions/checklogin";
+import checkLogin from "../functions/checkLogin";
 import { useEffect, useState } from "react";
 import getDayString from '../functions/getDayString'
 import useHttp from "../hooks/useHttps";
