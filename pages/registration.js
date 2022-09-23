@@ -4,12 +4,19 @@ import { useEffect, useState } from "react"
 import useHttp from "../hooks/useHttps"
 const parameters = require('../parameters.json')
 import styles from "../styles/pages/registration.module.css"
+import Router from "next/router"
 
 const registration = () => {
+    useEffect(() => {
+        fetch(`${parameters.API_HOST}/checklogin`).then(res => res.json()).then(result => result.statusCode === '100' ? Router.push('/timetable') : null)
+          // eslint-disable-next-line
+      },[])
+
     const {request} = useHttp();
     const [university, setUniversity] = useState([]);
     const [faculties, setFaculties] = useState([]);
     const [directions, setDerections] = useState([]);
+    const [error, setError] = useState('');
 
     const formik = useFormik({
         initialValues:{
@@ -67,7 +74,13 @@ const registration = () => {
             }
 
             request(`${parameters.API_HOST}/registryuser`, 'POST', JSON.stringify(registrationInfo))
-                .then(res => console.log(res))
+                .then(res => {
+                    if (res.statusCode === '100'){
+                        Router.push('/login')
+                    } else { 
+                        setError(res.Status)
+                    }
+                })
 
             } 
     })
@@ -126,7 +139,8 @@ const registration = () => {
         <div className={styles.pageWrapper}>
             <h1>Добро пожаловать в Studtable!</h1>
             <h3>Пройдите регистрацию перед началом</h3>
-            <form onSubmit={formik.handleSubmit}>
+            {error ? <div className={styles.error}>{error}</div> : null}
+            <form onSubmit={formik.handleSubmit} className={styles.formWrapper}>
 
                 <input className={styles.input} name="username" placeholder="Логин" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
                 {formik.errors.username && formik.touched.username ? <div className={styles.error}>{formik.errors.username}</div> : null}
