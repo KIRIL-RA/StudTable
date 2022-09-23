@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const parameters = require('../parameters.json')
 import { timetableFetching, timetableFetched, timetableFetchingError, setSelectedDay } from "../actions/actions";
-import checkLogin from "../functions/checklogin";
+import checkLogin from "../functions/checkLogin";
 import ChangeTimetableModal from "../components/common/ChangeTimetableModal/ChangeTimetableModal";
 import useHttp from "../hooks/useHttps";
 import styles from "../styles/pages/createPermanent.module.css"
