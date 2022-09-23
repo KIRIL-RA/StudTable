@@ -55,8 +55,9 @@ const timetable = () => {
                             <div className={styles.time__wrapper}>{timetable[item].time}</div>
                             <div className={styles.textInfo__wrapper}>
                                     <span className={styles.lessionName}>{timetable[item][typeOfWeek]?.lessionName} </span>
-                                    {/* {typeOfWeek === 'numerator' ? <span className={styles.vertical}>Числ.</span> : null}
-                                    {typeOfWeek === 'denumerator' ? <span className={styles.vertical}>Знам.</span> : null} */}
+                                    <br></br>
+                                    <span className={styles.lessionType}>{timetable[item][typeOfWeek]?.lessionType === 'lecture' ? '(Лекция)' : null}</span>
+                                    <span className={styles.lessionType}>{timetable[item][typeOfWeek]?.lessionType === 'seminar' ? '(Семинар)' : null}</span>
                                     <br></br>
                                     <span>{timetable[item][typeOfWeek]?.teacher}</span>
                             </div>
@@ -70,6 +71,9 @@ const timetable = () => {
                         <div className={styles.time__wrapper}>{timetable[item].time}</div>
                         <div className={styles.textInfo__wrapper}>
                             <span className={styles.lessionName}>{timetable[item].lessionName}</span>
+                            <br></br>
+                            <span className={styles.lessionType}>{timetable[item]?.lessionType === 'lecture' ? '(Лекция)' : null}</span>
+                            <span className={styles.lessionType}>{timetable[item]?.lessionType === 'seminar' ? '(Семинар)' : null}</span>
                             <br></br>
                             <span>{timetable[item].teacher}</span>
                         </div>
