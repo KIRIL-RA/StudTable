@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { setSelectedDay } from "../../../actions/actions";
+
 import styles from '../DaySelector/DaySelector.module.css'
+
 const DaySelector = () => {
     const dispatch = useDispatch();
     const {selectedDay} = useSelector(state => state.reducer)
