@@ -35,7 +35,7 @@ const actions = () => {
             <div className={styles.buttons__wrapper}>
                 {permissons.includes('updtt') ? <Link href='/createPermanent'><button className={styles.button}>Обновить постоянное расписание</button></Link> : null} 
                 {permissons.includes('ca') ? <Link href='/confirmAccounts'><button className={styles.button}>Подтвердить аккаунты</button></Link> : null}
-                {permissons.length === 0 ? <h3>Для вас тут ничего нет... Пока что</h3> : null}
+                <button className={styles.button}><Link href='https://vk.com/public216121694'>Группа ВК</Link></button> 
             </div>
         </>
     )
