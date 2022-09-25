@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import styles from "../styles/pages/confirmAccounts.module.css"
 import Layout from "../components/Layout/Layout";
 import useHttp from "../hooks/useHttps";
+import Error from "../components/major/Spinner/Spinner"
+import Spinner from "../components/major/Spinner/Spinner";
 const parameters = require('../parameters.json')
 
 import { useSelector, useDispatch } from "react-redux";
@@ -14,7 +16,7 @@ const confirmAccounts = () => {
 
     const {request} = useHttp();
     const dispatch = useDispatch();
-    const {unconfirmed} = useSelector(state => state.reducer); 
+    const {unconfirmed, unconfirmedStatus} = useSelector(state => state.reducer); 
     const [confirmed, setConfirmed] = useState([]);
  
     const onConfirm = (id) => {
@@ -61,6 +63,28 @@ const confirmAccounts = () => {
             </div>
         )
     })
+
+
+    if (unconfirmedStatus === 'loading'){
+        return (
+            <>
+                <Layout></Layout>
+                <h3 className={styles.title}>Подтвердить аккаунты:</h3>
+                <Spinner></Spinner>
+            </>
+        )
+    }
+
+    if (unconfirmedStatus === 'error'){
+        return (
+            <>
+                <Layout></Layout>
+                <h3 className={styles.title}>Подтвердить аккаунты:</h3>
+                <Error />
+            </>
+        )
+    }
+     
 
     return (
         <>

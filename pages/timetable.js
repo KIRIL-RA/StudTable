@@ -10,6 +10,7 @@ import Layout from "../components/Layout/Layout";
 import Spinner from "../components/major/Spinner/Spinner";
 import parceDate from "../functions/parceDate";
 import Router from "next/router";
+import Error from "../components/major/Error/Error";
 
 const timetable = () => {
     const [day, setDay] = useState(new Date().toLocaleDateString('en-ca'));
@@ -95,6 +96,15 @@ const timetable = () => {
             <>
                 <Layout></Layout>
                 <Spinner></Spinner>
+            </>
+        )
+    }
+
+    if (timetableStatus === 'error'){
+        return (
+            <>
+                <Layout></Layout>
+                <Error></Error>
             </>
         )
     }
