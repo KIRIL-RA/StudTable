@@ -2,6 +2,7 @@ import checkLogin from "../functions/checkLogin";
 import checkPermissons from "../functions/checkPermissons";
 import { useEffect, useState } from "react";
 
+import Head from "next/head";
 import styles from "../styles/pages/confirmAccounts.module.css"
 import Layout from "../components/Layout/Layout";
 import useHttp from "../hooks/useHttps";

@@ -5,6 +5,7 @@ import checkLogin from '../functions/checkLogin'
 import { useEffect, useState } from 'react'
 const parameters = require('../parameters.json')
 import Spinner from "../components/major/Spinner/Spinner";
+import Head from 'next/head'
 
 //ToDo переписать на редакс checkPermisson и данную страницу
 const actions = () => {

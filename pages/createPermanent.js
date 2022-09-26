@@ -13,6 +13,7 @@ import Spinner from "../components/major/Spinner/Spinner";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 const tableTypes = require('../pages/static/TableTypes.json')
+import Head from "next/head";
 
 
 const createPermanent = () => {
@@ -71,7 +72,7 @@ const createPermanent = () => {
         if (!values.numAudience && values.numSubject) errors.numAudience = 'Введите аудиторию!'
 
         if (!values.denumAudience && values.denumSubject) errors.denumAudience = 'Выберите аудиторию!'
-
+ 
         return errors;
     }
 

@@ -37,3 +37,6 @@
 .formWrapper{
     min-width: 100%;
 }
+.tip{
+    float: left;
+}

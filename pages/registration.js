@@ -5,6 +5,7 @@ import useHttp from "../hooks/useHttps"
 const parameters = require('../parameters.json')
 import styles from "../styles/pages/registration.module.css"
 import Router from "next/router"
+import Head from "next/head"
 
 const registration = () => {
     useEffect(() => {
@@ -54,22 +55,22 @@ const registration = () => {
 
         onSubmit: values => {
             let registrationInfo = {
-                userName: formik.values.username, 
-                email: formik.values.email,
-                password: formik.values.password,
-                accountType: formik.values.accountType,
+                userName: formik.values.username.trim(), 
+                email: formik.values.email.trim(),
+                password: formik.values.password.trim(),
+                accountType: formik.values.accountType.trim(),
                 academyInfo: {
-                    id: formik.values.academy,
-                    directionId: formik.values.direction,
-                    group: formik.values.groupe,
-                    faculty: formik.values.faculty,
-                    course: formik.values.course,
-                    studentIdNumber: formik.values.studentIdNumber
+                    id: formik.values.academy.trim(),
+                    directionId: formik.values.direction.trim(),
+                    group: formik.values.groupe.trim(),
+                    faculty: formik.values.faculty.trim(),
+                    course: formik.values.course.trim(),
+                    studentIdNumber: formik.values.studentIdNumber.trim()
                 },
                 realInfo: {
-                    firstName: formik.values.firstName,
-                    secondName: formik.values.secondName,
-                    lastName: formik.values.lastName
+                    firstName: formik.values.firstName.trim(),
+                    secondName: formik.values.secondName.trim(),
+                    lastName: formik.values.lastName.trim()
                 }
             }
 
@@ -202,7 +203,7 @@ const registration = () => {
 
                     {formik.values.direction ? (
                         <>
-                            <input name="groupe" className={styles.input} placeholder="Группа" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                            <input name="groupe" className={styles.input} placeholder="Группа (например 3.2)" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
                             {formik.errors.groupe && formik.touched.groupe ? <div className={styles.error}>{formik.errors.groupe}</div> : null}
 
                             <select className={styles.select} name="course" onChange={formik.handleChange} onBlur={formik.handleBlur}>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Layout from '../components/Layout/Layout';
+import Head from 'next/head';
 
 
 const page404 = () => {

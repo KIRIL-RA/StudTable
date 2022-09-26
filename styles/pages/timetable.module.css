@@ -65,7 +65,7 @@
     padding: 0 15px 0 15px;
 }
 .lessionName{
-    font-size: 26px;
+    font-size: 20px;
     font-weight: 600;
 }
 .textInfo__wrapper{
@@ -73,6 +73,10 @@
 }
 .time__wrapper{
     width: 40px;
+}
+.audience__wrapper{ 
+    width: 40px;
+    text-align: center;
 }
 .main__title{
     text-decoration: underline;

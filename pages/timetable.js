@@ -11,6 +11,7 @@ import Spinner from "../components/major/Spinner/Spinner";
 import parceDate from "../functions/parceDate";
 import Router from "next/router";
 import Error from "../components/major/Error/Error";
+import Head from "next/head";
 
 const timetable = () => {
     const [day, setDay] = useState(new Date().toLocaleDateString('en-ca'));
@@ -64,10 +65,11 @@ const timetable = () => {
                                     <br></br>
                                     <span className={styles.lessionType}>{timetable[item][typeOfWeek]?.lessionType === 'lecture' ? '(Лекция)' : null}</span>
                                     <span className={styles.lessionType}>{timetable[item][typeOfWeek]?.lessionType === 'seminar' ? '(Семинар)' : null}</span>
+                                    <span className={styles.lessionType}>{timetable[item][typeOfWeek]?.lessionType === 'empty' ? '—' : null}</span>
                                     <br></br>
                                     <span>{timetable[item][typeOfWeek]?.teacher}</span>
                             </div>
-                            <div>{timetable[item][typeOfWeek]?.audience}</div>
+                            <div className={styles.audience__wrapper}>{timetable[item][typeOfWeek]?.audience}</div>
                             {timetable[item][typeOfWeek]?.type === null ? <p></p> : null}
                         </div>
                     )
@@ -80,10 +82,11 @@ const timetable = () => {
                             <br></br>
                             <span className={styles.lessionType}>{timetable[item]?.lessionType === 'lecture' ? '(Лекция)' : null}</span>
                             <span className={styles.lessionType}>{timetable[item]?.lessionType === 'seminar' ? '(Семинар)' : null}</span>
+                            <span className={styles.lessionType}>{timetable[item].lessionType === 'empty' ? '—' : null}</span>
                             <br></br>
                             <span>{timetable[item].teacher}</span>
                         </div>
-                        <div>{timetable[item].audience}</div>
+                        <div className={styles.audience__wrapper}>{timetable[item].audience}</div>
                         {timetable[item].type === null ? <p></p> : null}
                     </div>
                 )

@@ -7,7 +7,7 @@ import { userFetching, userFetched, userFetchingError } from "../actions/actions
 import styles from "../styles/pages/profile.module.css"
 import Spinner from "../components/major/Spinner/Spinner";
 import Link from "next/link";
-
+import Head from "next/head";
 import checkLogin from "../functions/checkLogin";
 
 const profile = () => {
