@@ -22,6 +22,9 @@ const actions = () => {
     if (permissons === ''){
         return(
             <> 
+                <Head>
+                    <title>Меню</title>
+                </Head>
                 <Layout />
                 <Spinner />
             </>
@@ -30,6 +33,9 @@ const actions = () => {
 
     return (
         <>
+            <Head>
+                <title>Меню</title>
+            </Head>
             <Layout />
             <h2 className={styles.title}>Что вы хотите сделать?</h2>
             <div className={styles.buttons__wrapper}>

@@ -68,6 +68,9 @@ const confirmAccounts = () => {
     if (unconfirmedStatus === 'loading'){
         return (
             <>
+                <Head>
+                    <title>Подтверждение аккаунтов</title>
+                </Head>
                 <Layout></Layout>
                 <h3 className={styles.title}>Подтвердить аккаунты:</h3>
                 <Spinner></Spinner>
@@ -77,7 +80,10 @@ const confirmAccounts = () => {
 
     if (unconfirmedStatus === 'error'){
         return (
-            <>
+            <>  
+                <Head>
+                    <title>Подтверждение аккаунтов</title>
+                </Head>
                 <Layout></Layout>
                 <h3 className={styles.title}>Подтвердить аккаунты:</h3>
                 <Error />
@@ -88,6 +94,9 @@ const confirmAccounts = () => {
 
     return (
         <>
+            <Head>
+                <title>Подтверждение аккаунтов</title>
+            </Head>
             <Layout />
             <h3 className={styles.title}>Подтвердить аккаунты:</h3>
             {unconfirmedList}

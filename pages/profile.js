@@ -33,6 +33,9 @@ const profile = () => {
     if (userStatus === 'loading' || user === ''){
         return (
             <>
+                <Head>
+                    <title>Профиль</title>
+                </Head>
                 <Layout />
                 <Spinner />
             </>
@@ -42,6 +45,9 @@ const profile = () => {
     if (userStatus === 'error'){
         return (
             <>
+                <Head>
+                    <title>Профиль</title>
+                </Head>
                 <Layout></Layout>
                 <Error></Error>
             </>
@@ -50,6 +56,9 @@ const profile = () => {
     
     return (
         <> 
+            <Head>
+                <title>Профиль</title>
+            </Head>
             <Layout></Layout>
             <div className={styles.wrapper}>
                 <h3>{user?.realInfo?.firstName} {user?.realInfo?.secondName}</h3>

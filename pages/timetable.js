@@ -94,6 +94,9 @@ const timetable = () => {
     if(timetableStatus === 'loading'){
         return (
             <>
+                <Head>
+                    <title>Расписание</title>
+                </Head>
                 <Layout></Layout>
                 <Spinner></Spinner>
             </>
@@ -103,6 +106,9 @@ const timetable = () => {
     if (timetableStatus === 'error'){
         return (
             <>
+                <Head>
+                    <title>Расписание</title>
+                </Head>
                 <Layout></Layout>
                 <Error></Error>
             </>
@@ -113,6 +119,9 @@ const timetable = () => {
     if(timetableStatus === 'idle'){
         return (
             <> 
+                <Head>
+                    <title>Расписание</title>
+                </Head>
                 <Layout></Layout>
                 <main>
                     <div className={styles.dayInfo}>

@@ -286,6 +286,9 @@ const createPermanent = () => {
     if(timetableStatus === 'loading'){
         return (
             <>
+                <Head>
+                    <title>Изменение расписание</title>
+                </Head>
                 <Layout></Layout>
                 <h3 className={styles.createPermanent__title}>Обновление расписания:</h3>
                 <DaySelector />
@@ -296,7 +299,10 @@ const createPermanent = () => {
 
     if (timetableStatus === 'error'){
         return (
-            <>
+            <>  
+                <Head>
+                    <title>Изменение расписание</title>
+                </Head>
                 <Layout></Layout>
                 <h3 className={styles.createPermanent__title}>Обновление расписания:</h3>
                 <Error></Error>
@@ -306,6 +312,9 @@ const createPermanent = () => {
 
     return (
         <>
+            <Head>
+                <title>Изменение расписание</title>
+            </Head>
             <Layout></Layout>
             <div>
                 <h3 className={styles.createPermanent__title}>Обновление расписания:</h3>

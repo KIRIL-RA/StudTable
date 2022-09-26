@@ -1,9 +1,13 @@
 import Link from 'next/link';
 import Layout from '../components/Layout/Layout';
 
+
 const page404 = () => {
     return (
     <>
+        <Head>
+            <title>404</title>
+        </Head>
         <Layout></Layout>
         <div
             style={{

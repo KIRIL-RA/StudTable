@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 const parameters = require('../parameters.json')
 import styles from '../styles/pages/login.module.css'
 import Link from 'next/link';
+import Head from 'next/head';
 
 const login = () => {
     const [serverError, setServerError] = useState('');
@@ -41,21 +42,26 @@ const login = () => {
     }, [formik.values.username, formik.values.password])
 
     return(
-        <div className={styles.login__wrapper}>
-            <h1 className={styles.login__title}>StudTable!</h1>
-            <form onSubmit={formik.handleSubmit} className={styles.form__wrapper}>
-                <input className={styles.form__input} type="text" value={formik.values.username} onChange={formik.handleChange} onBlur={formik.handleBlur} name="username" placeholder='Имя пользователя'></input>
-                {formik.errors.username && formik.touched.username ? <div className={styles.form__error}>{formik.errors.username}</div> : null}
+        <>
+            <Head>
+                <title>Авторизация</title>
+            </Head>
+            <div className={styles.login__wrapper}>
+                <h1 className={styles.login__title}>StudTable!</h1>
+                <form onSubmit={formik.handleSubmit} className={styles.form__wrapper}>
+                    <input className={styles.form__input} type="text" value={formik.values.username} onChange={formik.handleChange} onBlur={formik.handleBlur} name="username" placeholder='Имя пользователя'></input>
+                    {formik.errors.username && formik.touched.username ? <div className={styles.form__error}>{formik.errors.username}</div> : null}
 
-                <input className={styles.form__input} type="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} name="password" placeholder='Пароль'/>
-                {formik.errors.password && formik.touched.password ? <div className={styles.form__error}>{formik.errors.password}</div> : null}
+                    <input className={styles.form__input} type="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} name="password" placeholder='Пароль'/>
+                    {formik.errors.password && formik.touched.password ? <div className={styles.form__error}>{formik.errors.password}</div> : null}
 
-                {serverError !== '' ? <div className={styles.form__error}>{serverError}</div> : null}
-                <button type="submit" className={styles.form__button}>Войти</button>
+                    {serverError !== '' ? <div className={styles.form__error}>{serverError}</div> : null}
+                    <button type="submit" className={styles.form__button}>Войти</button>
 
-                <Link href='/registration'><span className={styles.form__registration}>Регистрация</span></Link>
-            </form>
-        </div>
+                    <Link href='/registration'><span className={styles.form__registration}>Регистрация</span></Link>
+                </form>
+            </div>
+        </>
     )
 }
 

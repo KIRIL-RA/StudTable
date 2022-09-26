@@ -136,88 +136,93 @@ const registration = () => {
     })
 
     return (
-        <div className={styles.pageWrapper}>
-            <h1>Добро пожаловать в Studtable!</h1>
-            <h3>Пройдите регистрацию перед началом</h3>
-            {error ? <div className={styles.error}>{error}</div> : null}
-            <form onSubmit={formik.handleSubmit} className={styles.formWrapper}>
+        <>
+            <Head>
+                <title>Регистрация</title>
+            </Head>
+            <div className={styles.pageWrapper}>
+                <h1>Добро пожаловать в Studtable!</h1>
+                <h3>Пройдите регистрацию перед началом</h3>
+                {error ? <div className={styles.error}>{error}</div> : null}
+                <form onSubmit={formik.handleSubmit} className={styles.formWrapper}>
 
-                <input className={styles.input} name="username" placeholder="Логин" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                {formik.errors.username && formik.touched.username ? <div className={styles.error}>{formik.errors.username}</div> : null}
+                    <input className={styles.input} name="username" placeholder="Логин" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                    {formik.errors.username && formik.touched.username ? <div className={styles.error}>{formik.errors.username}</div> : null}
 
-                <input className={styles.input} name="email" placeholder="Почта" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                {formik.errors.email && formik.touched.email ? <div className={styles.error}>{formik.errors.email}</div> : null}
+                    <input className={styles.input} name="email" placeholder="Почта" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                    {formik.errors.email && formik.touched.email ? <div className={styles.error}>{formik.errors.email}</div> : null}
 
-                <input className={styles.input} name="password" placeholder="Пароль" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                {formik.errors.password && formik.touched.password ? <div className={styles.error}>{formik.errors.password}</div> : null}
+                    <input className={styles.input} name="password" placeholder="Пароль" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                    {formik.errors.password && formik.touched.password ? <div className={styles.error}>{formik.errors.password}</div> : null}
 
-                <input className={styles.input} name="confirmPassword" placeholder="Подтвердите пароль" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                {formik.errors.confirmPassword && formik.touched.confirmPassword ? <div className={styles.error}>{formik.errors.confirmPassword}</div> : null}
+                    <input className={styles.input} name="confirmPassword" placeholder="Подтвердите пароль" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                    {formik.errors.confirmPassword && formik.touched.confirmPassword ? <div className={styles.error}>{formik.errors.confirmPassword}</div> : null}
 
-                <select className={styles.select} name="accountType" onChange={formik.handleChange} onBlur={formik.handleBlur}>
-                    <option value="">Выберите тип аккаунта</option>
-                    <option value="Student">Студент</option>
-                    <option value="GroupHeadman">Староста</option>
-                </select>
-                {formik.errors.accountType && formik.touched.accountType ? <div className={styles.error}>{formik.errors.accountType}</div> : null}
+                    <select className={styles.select} name="accountType" onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                        <option value="">Выберите тип аккаунта</option>
+                        <option value="Student">Студент</option>
+                        <option value="GroupHeadman">Староста</option>
+                    </select>
+                    {formik.errors.accountType && formik.touched.accountType ? <div className={styles.error}>{formik.errors.accountType}</div> : null}
 
-                <input className={styles.input} name="firstName" placeholder="Имя" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                {formik.errors.firstName && formik.touched.firstName ? <div className={styles.error}>{formik.errors.firstName}</div> : null}
+                    <input className={styles.input} name="firstName" placeholder="Имя" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                    {formik.errors.firstName && formik.touched.firstName ? <div className={styles.error}>{formik.errors.firstName}</div> : null}
 
-                <input className={styles.input} name="secondName" placeholder="Фамилия" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                {formik.errors.secondName && formik.touched.secondName ? <div className={styles.error}>{formik.errors.secondName}</div> : null}
+                    <input className={styles.input} name="secondName" placeholder="Фамилия" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                    {formik.errors.secondName && formik.touched.secondName ? <div className={styles.error}>{formik.errors.secondName}</div> : null}
 
-                <input className={styles.input} name="lastName" placeholder="Отчество" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                {formik.errors.lastName && formik.touched.lastName ? <div className={styles.error}>{formik.errors.lastName}</div> : null}
+                    <input className={styles.input} name="lastName" placeholder="Отчество" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                    {formik.errors.lastName && formik.touched.lastName ? <div className={styles.error}>{formik.errors.lastName}</div> : null}
 
-                <select className={styles.select} name="academy" onChange={formik.handleChange} onBlur={formik.handleBlur}> 
-                    <option value="">Выберите университет</option>
-                    {universityList}
-                </select>
-                {formik.errors.academy && formik.touched.academy ? <div className={styles.error}>{formik.errors.academy}</div> : null}
+                    <select className={styles.select} name="academy" onChange={formik.handleChange} onBlur={formik.handleBlur}> 
+                        <option value="">Выберите университет</option>
+                        {universityList}
+                    </select>
+                    {formik.errors.academy && formik.touched.academy ? <div className={styles.error}>{formik.errors.academy}</div> : null}
 
-                {formik.values.academy ? (
-                    <>
-                        <select className={styles.select} name="faculty" onChange={formik.handleChange} onBlur={formik.handleBlur}>
-                            <option value="">Выберите факультет</option>
-                            {facultiesList}
-                        </select>
-                        {formik.errors.faculty && formik.touched.faculty ? <div className={styles.error}>{formik.errors.faculty}</div> : null}
-                    </>
-                ) : null}
+                    {formik.values.academy ? (
+                        <>
+                            <select className={styles.select} name="faculty" onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                                <option value="">Выберите факультет</option>
+                                {facultiesList}
+                            </select>
+                            {formik.errors.faculty && formik.touched.faculty ? <div className={styles.error}>{formik.errors.faculty}</div> : null}
+                        </>
+                    ) : null}
 
-                {formik.values.faculty ? (
-                    <>
-                        <select className={styles.select} name="direction" onChange={formik.handleChange} onBlur={formik.handleBlur}>
-                            <option value="">Выберите направление</option>
-                            {derectionList}
-                        </select>
-                        {formik.errors.direction && formik.touched.direction ? <div className={styles.error}>{formik.errors.direction}</div> : null}
-                    </> 
-                ) : null}
+                    {formik.values.faculty ? (
+                        <>
+                            <select className={styles.select} name="direction" onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                                <option value="">Выберите направление</option>
+                                {derectionList}
+                            </select>
+                            {formik.errors.direction && formik.touched.direction ? <div className={styles.error}>{formik.errors.direction}</div> : null}
+                        </> 
+                    ) : null}
 
-                {formik.values.direction ? (
-                    <>
-                        <input name="groupe" className={styles.input} placeholder="Группа" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                        {formik.errors.groupe && formik.touched.groupe ? <div className={styles.error}>{formik.errors.groupe}</div> : null}
+                    {formik.values.direction ? (
+                        <>
+                            <input name="groupe" className={styles.input} placeholder="Группа" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                            {formik.errors.groupe && formik.touched.groupe ? <div className={styles.error}>{formik.errors.groupe}</div> : null}
 
-                        <select className={styles.select} name="course" onChange={formik.handleChange} onBlur={formik.handleBlur}>
-                            <option value="">Выберите курс</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                        {formik.errors.course && formik.touched.course ? <div className={styles.error}>{formik.errors.course}</div> : null}
+                            <select className={styles.select} name="course" onChange={formik.handleChange} onBlur={formik.handleBlur}>
+                                <option value="">Выберите курс</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            {formik.errors.course && formik.touched.course ? <div className={styles.error}>{formik.errors.course}</div> : null}
 
-                        <input className={styles.input} name="studentIdNumber" placeholder="Номер студенческого" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                        {formik.errors.studentIdNumber && formik.touched.studentIdNumber ? <div className={styles.error}>{formik.errors.studentIdNumber}</div> : null}         
-                    </>
-                ) : null}
+                            <input className={styles.input} name="studentIdNumber" placeholder="Номер студенческого" onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                            {formik.errors.studentIdNumber && formik.touched.studentIdNumber ? <div className={styles.error}>{formik.errors.studentIdNumber}</div> : null}         
+                        </>
+                    ) : null}
 
-                <button type="submit" className={styles.button}>Подтвердить</button>
-            </form>
-        </div>
+                    <button type="submit" className={styles.button}>Подтвердить</button>
+                </form>
+            </div>
+        </>
     )
 }
 
