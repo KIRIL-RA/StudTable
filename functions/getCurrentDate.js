@@ -25,9 +25,6 @@ const getCurrentDate = (date) => {
             break;
     }
 
-    /* console.log(date)
-    console.log(date.getMonth()) */
-
     switch (date.getMonth()){
         case 0:
             month = 'Января'
