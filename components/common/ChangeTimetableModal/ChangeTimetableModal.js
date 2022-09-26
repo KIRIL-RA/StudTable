@@ -1,11 +1,14 @@
-import styles from "../ChangeTimetableModal/ChangeTimetableModal.module.css"
+import { useEffect } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { discliplinesFetching, discliplinesFetched, discliplinesFetchingError } from '../../../actions/actions';
 
 import useHttp from "../../../hooks/useHttps";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-const parameters = require('../../../parameters.json')
+const parameters = require('../../../parameters.json');
 
-import { discliplinesFetching, discliplinesFetched, discliplinesFetchingError } from '../../../actions/actions'
+import styles from "../ChangeTimetableModal/ChangeTimetableModal.module.css";
+
+
 
 const ChangeTimetableModal = ({ isVisiable, onClose, lessionNum, formik, specialFormik, modalType, setModalType, onDelete}) => {
     const { request } = useHttp();

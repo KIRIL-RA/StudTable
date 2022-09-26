@@ -38,24 +38,31 @@ const profile = () => {
             </>
         )
     }
-    
-    if (userStatus === 'idle'){
+
+    if (userStatus === 'error'){
         return (
-            <> 
+            <>
                 <Layout></Layout>
-                <div className={styles.wrapper}>
-                    <h3>{user?.realInfo?.firstName} {user?.realInfo?.secondName}</h3>
-                    {user?.isConfirmed ? <p className={styles.green}>Подтвержденный</p> : <p className={styles.red}>Не подтвержденный</p>} 
-                    {user?.accountType === "GroupHeadman" ? <p>Роль: староста</p> : <p>Роль: студент</p>}
-                    <p>Факультет: {user?.academy?.faculty}</p>
-                    <p>Курс: {user?.academy?.course}</p>
-                    <p>Группа: {user?.academy?.group}</p>
-                    <p>Направление: {user?.academy?.directionId}</p>
-                    <Link href='/login'><p className={styles.logout} onClick={logOut}>Выйти</p></Link>
-                </div>
+                <Error></Error>
             </>
         )
     }
+    
+    return (
+        <> 
+            <Layout></Layout>
+            <div className={styles.wrapper}>
+                <h3>{user?.realInfo?.firstName} {user?.realInfo?.secondName}</h3>
+                {user?.isConfirmed ? <p className={styles.green}>Подтвержденный</p> : <p className={styles.red}>Не подтвержденный</p>} 
+                {user?.accountType === "GroupHeadman" ? <p>Роль: староста</p> : <p>Роль: студент</p>}
+                <p>Факультет: {user?.academy?.faculty}</p>
+                <p>Курс: {user?.academy?.course}</p>
+                <p>Группа: {user?.academy?.group}</p>
+                <p>Направление: {user?.academy?.directionId}</p>
+                <Link href='/login'><p className={styles.logout} onClick={logOut}>Выйти</p></Link>
+            </div>
+        </>
+    )
 }
 
 export default profile;

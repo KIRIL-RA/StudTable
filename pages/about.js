@@ -1,7 +1,11 @@
-import checkLogin from "../functions/checkLogin";
 import { useEffect } from "react";
-import Layout from "../components/Layout/Layout";
+
 import Link from "next/link";
+
+import Layout from "../components/Layout/Layout";
+
+import checkLogin from "../functions/checkLogin";
+
 import styles from "../styles/pages/about.module.css"
 
 const about = () => {

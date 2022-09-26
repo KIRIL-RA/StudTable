@@ -1,7 +1,6 @@
 import styles from "../styles/pages/timetable.module.css"
 import checkLogin from "../functions/checkLogin";
 import { useEffect, useState } from "react";
-import getDayString from '../functions/getDayString'
 import useHttp from "../hooks/useHttps";
 const parameters = require('../parameters.json')
 import getCurrentDate from "../functions/getCurrentDate";
@@ -10,6 +9,8 @@ import { timetableFetching, timetableFetched, timetableFetchingError} from '../a
 import Layout from "../components/Layout/Layout";
 import Spinner from "../components/major/Spinner/Spinner";
 import parceDate from "../functions/parceDate";
+import Router from "next/router";
+import Error from "../components/major/Error/Error";
 
 const timetable = () => {
     const [day, setDay] = useState(new Date().toLocaleDateString('en-ca'));
@@ -34,8 +35,13 @@ const timetable = () => {
             }
             request(`${parameters.API_HOST}/gettable`, 'POST', JSON.stringify(body))
                 .then(result => {
-                    dispatch(timetableFetched(result.data))
-                    setTypeOfWeek(result.data.weekType)
+                    if (result.statusCode === '100'){
+                        dispatch(timetableFetched(result.data))
+                        setTypeOfWeek(result.data.weekType)
+                    }
+                    if (result.statusCode === '90'){
+                        Router.push('/profile')
+                    }
                 })
                 .catch(() => dispatch(timetableFetchingError()))
     }, [day])
@@ -90,6 +96,15 @@ const timetable = () => {
             <>
                 <Layout></Layout>
                 <Spinner></Spinner>
+            </>
+        )
+    }
+
+    if (timetableStatus === 'error'){
+        return (
+            <>
+                <Layout></Layout>
+                <Error></Error>
             </>
         )
     }

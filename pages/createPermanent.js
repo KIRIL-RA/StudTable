@@ -294,6 +294,16 @@ const createPermanent = () => {
         )
     }
 
+    if (timetableStatus === 'error'){
+        return (
+            <>
+                <Layout></Layout>
+                <h3 className={styles.createPermanent__title}>Обновление расписания:</h3>
+                <Error></Error>
+            </>
+        )
+    }
+
     return (
         <>
             <Layout></Layout>
