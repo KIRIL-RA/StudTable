@@ -4,35 +4,39 @@
 .timetableItem__wrapper{
     display: flex;
     border-bottom: 1px solid black;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
     min-height: 60px;
+    padding: 0 15px 0 15px;
 }
 .specialTimetableItem__wrapper{
     display: flex;
     border-bottom: 1px solid black;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
     min-height: 120px;
+    padding: 0 15px 0 15px;
 }
 .changedTimetableItem__wrapper{
     display: flex;
     border-bottom: 1px solid black;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
     min-height: 60px;
+    padding: 0 15px 0 15px;
     color: gray;
 }
 .changedSpecialTimetableItem__wrapper{
     display: flex;
     border-bottom: 1px solid black;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
     min-height: 120px;
+    padding: 0 15px 0 15px;
     color: gray;
 }
 .lessionName{
