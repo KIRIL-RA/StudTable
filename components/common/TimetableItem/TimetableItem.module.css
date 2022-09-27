@@ -1,0 +1,27 @@
+.wrapper{
+    display: flex;
+    border-bottom: 1px solid black;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    min-height: 60px;
+    padding: 0 15px 0 15px;
+}
+.time{
+    width: 40px;
+}
+.textBlock{
+    text-align: center;
+}
+.lessionName{
+    font-size: 20px;
+    font-weight: 600;
+}
+.audience{ 
+    width: 40px;
+    text-align: center;
+}
+.lessionType{
+    font-weight: 600;
+    text-align: center;
+}

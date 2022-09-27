@@ -55,29 +55,6 @@
 .main__title{
     margin: 0;
 }
-.timetable__item{
-    display: flex;
-    border-bottom: 1px solid black;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    min-height: 60px;
-    padding: 0 15px 0 15px;
-}
-.lessionName{
-    font-size: 20px;
-    font-weight: 600;
-}
-.textInfo__wrapper{
-    text-align: center;
-}
-.time__wrapper{
-    width: 40px;
-}
-.audience__wrapper{ 
-    width: 40px;
-    text-align: center;
-}
 .main__title{
     text-decoration: underline;
 }
@@ -88,8 +65,4 @@
 .dayInfo{
     text-align: center;
     margin: 1em 0 1em 0;
-}
-.lessionType{
-    font-weight: 600;
-    text-align: center;
 }

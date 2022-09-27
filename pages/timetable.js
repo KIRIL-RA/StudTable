@@ -12,6 +12,7 @@ import parceDate from "../functions/parceDate";
 import Router from "next/router";
 import Error from "../components/major/Error/Error";
 import Head from "next/head";
+import TimetableItem from "../components/common/TimetableItem/TimetableItem";
 
 const timetable = () => {
     const [day, setDay] = useState(new Date().toLocaleDateString('en-ca'));
@@ -51,48 +52,26 @@ const timetable = () => {
 
     const {timetable, timetableStatus} = useSelector(state => state.reducer)
 
-
-    let timetableList;
-    if (timetable){
-        timetableList = Object.keys(timetable).map(item => {
-            if (item !== 'weekType'){
-                if (timetable[item].type === "byWeek"){
-                    return (
-                        <div className={styles.timetable__item} key={timetable[item].time}>
-                            <div className={styles.time__wrapper}>{timetable[item].time}</div>
-                            <div className={styles.textInfo__wrapper}>
-                                    <span className={styles.lessionName}>{timetable[item][typeOfWeek]?.lessionName} </span>
-                                    <br></br>
-                                    <span className={styles.lessionType}>{timetable[item][typeOfWeek]?.lessionType === 'lecture' ? '(Лекция)' : null}</span>
-                                    <span className={styles.lessionType}>{timetable[item][typeOfWeek]?.lessionType === 'seminar' ? '(Семинар)' : null}</span>
-                                    <span className={styles.lessionType}>{timetable[item][typeOfWeek]?.lessionType === 'empty' ? '—' : null}</span>
-                                    <br></br>
-                                    <span>{timetable[item][typeOfWeek]?.teacher}</span>
-                            </div>
-                            <div className={styles.audience__wrapper}>{timetable[item][typeOfWeek]?.audience}</div>
-                            {timetable[item][typeOfWeek]?.type === null ? <p></p> : null}
-                        </div>
-                    )
-                }
-                return (
-                    <div className={styles.timetable__item} key={timetable[item].time}>
-                        <div className={styles.time__wrapper}>{timetable[item].time}</div>
-                        <div className={styles.textInfo__wrapper}>
-                            <span className={styles.lessionName}>{timetable[item].lessionName}</span>
-                            <br></br>
-                            <span className={styles.lessionType}>{timetable[item]?.lessionType === 'lecture' ? '(Лекция)' : null}</span>
-                            <span className={styles.lessionType}>{timetable[item]?.lessionType === 'seminar' ? '(Семинар)' : null}</span>
-                            <span className={styles.lessionType}>{timetable[item].lessionType === 'empty' ? '—' : null}</span>
-                            <br></br>
-                            <span>{timetable[item].teacher}</span>
-                        </div>
-                        <div className={styles.audience__wrapper}>{timetable[item].audience}</div>
-                        {timetable[item].type === null ? <p></p> : null}
-                    </div>
-                )
+    let timetableList = Object.keys(timetable).map(item => {  //Тут была проверка if (timetable), если появятся баги, то беды тут
+            if (item !== 'weekType'){                         //Так как от севера приходит не только расписание, но и числ/знам, нужно отделять ненужный айтем
+                {timetable[item].type === "byWeek" ? 
+                    <TimetableItem 
+                    time={timetable[item].time} 
+                    name={timetable[item][typeOfWeek]?.lessionName} 
+                    type={timetable[item][typeOfWeek]?.lessionType} 
+                    teacher={timetable[item][typeOfWeek]?.teacher} 
+                    audience={timetable[item][typeOfWeek]?.audience} 
+                    dayType={timetable[item][typeOfWeek]?.type}/> : null}
+                return <TimetableItem 
+                        time={timetable[item]?.time} 
+                        name={timetable[item]?.lessionName} 
+                        type={timetable[item]?.lessionType} 
+                        teacher={timetable[item]?.teacher} 
+                        audience={timetable[item]?.audience} 
+                        dayType={timetable[item].type}/>
+                
             }
-        }) 
-    }
+        })
 
     if(timetableStatus === 'loading'){
         return (
