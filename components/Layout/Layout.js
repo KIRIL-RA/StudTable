@@ -7,9 +7,9 @@ import { AiOutlineUnorderedList, AiOutlineUser} from "react-icons/ai";
 const Layout = () => {
     return(
         <div className={styles.wrapper}>
-            <Link href="/actions"><AiOutlineUnorderedList size={32}/></Link>
-            <Link href="/timetable"><span className={styles.logo}>Studtable</span></Link>
-            <Link href="/profile"><AiOutlineUser size={32}/></Link>
+            <Link href="/actions"><a><AiOutlineUnorderedList size={32}/></a></Link>
+            <Link href="/timetable"><a><span className={styles.logo}>Studtable</span></a></Link>
+            <Link href="/profile"><a><AiOutlineUser size={32}/></a></Link>
         </div>
     )
 }
